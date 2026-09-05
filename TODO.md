@@ -22,7 +22,7 @@
 - [x] Tema modülü (`theme.css`, `ThemeContext`, `themes.ts`) `src/shared/theme/`'e taşındı; hem newtab hem options aynı temaları kullanıyor
 - [x] Ayarlar sayfası tamamen yeniden tasarlandı: temalı panel/inputlar, bölümlere ayrılmış (Görünüm/Yapay Zeka/E-posta bağlantıları), ikonlu butonlar
 - [x] Gemini/Tavily API key alanlarına göster/gizle (göz ikonu) butonu eklendi
-- [x] Outlook bağlantısı eklendi (Microsoft Graph, PKCE OAuth ile `chrome.identity.launchWebAuthFlow`); kullanıcı kendi Azure App Registration'ının Client ID'sini Ayarlar'a giriyor, yönlendirme URI'si sayfada kopyalanabilir olarak gösteriliyor
+- [x] Outlook bağlantısı eklendi (Microsoft Graph, PKCE OAuth ile `chrome.identity.launchWebAuthFlow`)
 - [x] E-posta kartlarında sağlayıcı ikonu (Gmail/Outlook) gösteriliyor; her iki hesap da bağlıysa özetler tarihe göre birleştirilip en yeni 10 tanesi gösteriliyor
 - [x] "Gönderici" alanı artık her zaman ham e-posta başlığından geliyor (Gemini'nin yeniden biçimlendirmesine güvenilmiyor) — bazı kartlarda adres eksik kalma sorunu giderildi
 - [x] Outlook OAuth "Bağlan" butonundaki form-submit yarış durumu ve Azure kurulum sorunları (userAudience, client_secret, cross-origin token redemption) çözüldü — Outlook bağlantısı uçtan uca çalışıyor
@@ -32,5 +32,14 @@
 - [x] E-posta kartına tıklayınca yeni sekmede açılıyor: Gmail'de mesaj ID'siyle doğrudan o e-posta; Outlook'ta genel gelen kutusu (mesaja özel 3 URL kalıbı denendi, kişisel outlook.live.com hesaplarında Graph id'si OWA'nın kendi id şemasıyla örtüşmediği için güvenilir çalışmadı — kullanıcıyla karar verilen bilinçli ödünleşim)
 - [x] Tüm sayfalarda (newtab + options) scroll bar'lar artık temaya uyumlu (Minecraft'ta köşeli, diğerlerinde yuvarlak, hover'da aksan rengi)
 - [x] Scroll bar ile kartlar/balonlar arasına boşluk eklendi (dip dibe duruyordu)
+- [x] Outlook artık Gmail gibi paylaşılan/gömülü bir Azure Client ID kullanıyor — kullanıcıların artık kendi Azure App Registration'larını oluşturmasına gerek yok, tek tıkla bağlanıyorlar
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir
+
+## Chrome Web Store yayın hazırlığı
+
+- [x] Gizlilik politikası taslağı yazıldı (`docs/privacy-policy.md`) — tarih/iletişim alanları doldurulup kullanıcının kendi sitesinde yayınlanmayı bekliyor
+- [ ] Uzantı ikonları eksik: `manifest.ts`'te `icons` alanı yok, projede hiç ikon dosyası (16/48/128 + mağaza ikonu) yok — mağaza gönderimi bunsuz reddedilir
+- [ ] Google OAuth consent screen'i "sensitive scope" doğrulamasına gönder: gizlilik politikası linki, marka bilgileri, kısa demo video, Search Console alan adı doğrulaması (CASA gerekmiyor — `gmail.readonly` restricted değil sensitive kapsam)
+- [ ] Mağazaya yayınlanınca uzantı ID'si değişecek — Azure'daki Outlook uygulamasının yönlendirme URI'sini yeni ID'ye göre bir kereliğine güncelle
+- [ ] Mağaza listesi materyalleri: ekran görüntüleri, kısa/detaylı açıklama, kategori, promosyon görseli
