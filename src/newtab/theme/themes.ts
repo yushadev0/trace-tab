@@ -9,6 +9,9 @@ export const THEMES: ThemeMeta[] = [
   { id: "dark", label: "Koyu" },
   { id: "light", label: "Açık" },
   { id: "f1", label: "Formula 1" },
+  { id: "minecraft", label: "Minecraft" },
+  { id: "factorio", label: "Factorio" },
+  { id: "messi", label: "Messi / Futbol" },
 ];
 
 export const DEFAULT_THEME: ThemeId = "dark";

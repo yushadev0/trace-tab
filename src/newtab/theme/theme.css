@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Racing+Sans+One&family=Titillium+Web:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Racing+Sans+One&family=Titillium+Web:wght@400;600;700&family=Press+Start+2P&family=VT323&family=Oxanium:wght@400;600;800&family=Share+Tech+Mono&family=Bebas+Neue&family=Barlow:wght@400;600;700&display=swap");
 
 /* ---------- Koyu tema (varsayılan): düz, şık antrasit ---------- */
 :root,
@@ -75,6 +75,80 @@
   --priority-high: #e10600;
 }
 
+/* ---------- Minecraft: blok bevel'ler, toprak/çim dokusu ---------- */
+[data-theme="minecraft"] {
+  --bg: #241a10;
+  --surface: #4a3521;
+  --surface-2: #3a2a19;
+  --border: #1c130a;
+  --text: #f1e9d2;
+  --text-muted: #c9b78f;
+  --accent: #5db63f;
+  --accent-2: #4fd1e8;
+  --accent-text: #12240a;
+  --radius-lg: 0px;
+  --radius-md: 0px;
+  --radius-sm: 0px;
+  --shadow-lg: 0 6px 0 #140d06, 0 22px 45px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 3px 0 #140d06;
+  --font-display: "Press Start 2P", "Manrope", sans-serif;
+  --font-body: "VT323", "Manrope", monospace;
+  --mc-bevel-light: #8a6a42;
+  --mc-bevel-dark: #150e07;
+  --danger: #ff6b52;
+  --priority-low: var(--text-muted);
+  --priority-medium: #e8b400;
+  --priority-high: #b02e26;
+}
+
+/* ---------- Factorio: sanayi metali, perçin ve tehlike şeridi ---------- */
+[data-theme="factorio"] {
+  --bg: #1b1d21;
+  --surface: #24262b;
+  --surface-2: #2c2e34;
+  --border: #3a3d44;
+  --text: #e9ecef;
+  --text-muted: #9a9fa6;
+  --accent: #f1902c;
+  --accent-2: #ffcc00;
+  --accent-text: #1b1200;
+  --radius-lg: 3px;
+  --radius-md: 3px;
+  --radius-sm: 2px;
+  --shadow-lg: 0 24px 55px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.4);
+  --font-display: "Oxanium", "Manrope", sans-serif;
+  --font-body: "Share Tech Mono", "Manrope", monospace;
+  --danger: #e74c3c;
+  --priority-low: var(--text-muted);
+  --priority-medium: #ffcc00;
+  --priority-high: #e74c3c;
+}
+
+/* ---------- Messi / Futbol: stadyum çimi, arjantin mavisi ve altın ---------- */
+[data-theme="messi"] {
+  --bg: #0d2818;
+  --surface: #163625;
+  --surface-2: #1d4530;
+  --border: #2a5c3e;
+  --text: #f3f7f2;
+  --text-muted: #a9c4b3;
+  --accent: #75aadb;
+  --accent-2: #f6c915;
+  --accent-text: #06182d;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-lg: 0 24px 55px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --font-display: "Bebas Neue", "Manrope", sans-serif;
+  --font-body: "Barlow", "Manrope", sans-serif;
+  --danger: #e63946;
+  --priority-low: var(--text-muted);
+  --priority-medium: #f6c915;
+  --priority-high: #e63946;
+}
+
 html[data-theme] {
   background: var(--bg);
   color-scheme: dark;
@@ -109,4 +183,100 @@ html[data-theme="light"] {
 
 [data-theme="f1"] .chat-bubble {
   clip-path: var(--panel-clip-sm);
+}
+
+/* Minecraft'a özgü motifler: piksel doku, çim/toprak şerit, blok bevel'ler */
+[data-theme="minecraft"] .app-root {
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 8px, rgba(0, 0, 0, 0.04) 8px 16px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 8px, rgba(0, 0, 0, 0.04) 8px 16px);
+}
+
+[data-theme="minecraft"] .flag-strip {
+  height: 8px;
+  margin-bottom: 18px;
+  border-radius: 0;
+  background-image: repeating-linear-gradient(90deg, #5db63f 0 16px, #6b4423 16px 32px);
+}
+
+[data-theme="minecraft"] .hero-card,
+[data-theme="minecraft"] .panel {
+  border: 4px solid;
+  border-color: var(--mc-bevel-light) var(--mc-bevel-dark) var(--mc-bevel-dark) var(--mc-bevel-light);
+}
+
+[data-theme="minecraft"] .chat-bubble,
+[data-theme="minecraft"] .email-card,
+[data-theme="minecraft"] .icon-btn,
+[data-theme="minecraft"] .theme-switcher__handle,
+[data-theme="minecraft"] .theme-switcher__btn {
+  border-radius: 0;
+  border: 2px solid;
+  border-color: var(--mc-bevel-light) var(--mc-bevel-dark) var(--mc-bevel-dark) var(--mc-bevel-light);
+}
+
+[data-theme="minecraft"] .greeting-title {
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+[data-theme="minecraft"] .chat-bubble,
+[data-theme="minecraft"] .markdown,
+[data-theme="minecraft"] .chat-input textarea,
+[data-theme="minecraft"] .email-card,
+[data-theme="minecraft"] .greeting-subtitle {
+  font-size: 17px;
+}
+
+/* Factorio'ya özgü motifler: metal doku, tehlike şeridi, perçinli panel */
+[data-theme="factorio"] .app-root {
+  background-image: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 7px),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0 1px, transparent 1px 7px);
+}
+
+[data-theme="factorio"] .flag-strip {
+  height: 8px;
+  margin-bottom: 18px;
+  border-radius: 0;
+  background-image: repeating-linear-gradient(45deg, #1b1d21 0 10px, #ffcc00 10px 20px);
+}
+
+[data-theme="factorio"] .hero-card,
+[data-theme="factorio"] .panel {
+  border-top: 3px solid var(--accent);
+  background-image: radial-gradient(circle 3px, #6b6f78 95%, transparent 100%),
+    radial-gradient(circle 3px, #6b6f78 95%, transparent 100%), radial-gradient(circle 3px, #6b6f78 95%, transparent 100%),
+    radial-gradient(circle 3px, #6b6f78 95%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  background-position: 10px 10px, calc(100% - 10px) 10px, 10px calc(100% - 10px), calc(100% - 10px) calc(100% - 10px);
+}
+
+[data-theme="factorio"] .chat-bubble--model {
+  border-left: 3px solid var(--accent);
+}
+
+/* Messi/Futbol'a özgü motifler: çim şeritleri, orta saha çizgisi, taç çizgisi paneli */
+[data-theme="messi"] .app-root {
+  background-image: repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0 40px, rgba(0, 0, 0, 0.04) 40px 80px);
+}
+
+[data-theme="messi"] .flag-strip {
+  height: 12px;
+  margin-bottom: 18px;
+  background-image: radial-gradient(circle 5px at 50% 50%, rgba(255, 255, 255, 0.9) 97%, transparent 100%),
+    linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.75));
+  background-repeat: no-repeat, no-repeat;
+  background-size: 12px 12px, 100% 2px;
+  background-position: center, center;
+}
+
+[data-theme="messi"] .hero-card,
+[data-theme="messi"] .panel {
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-lg), inset 0 0 0 4px rgba(117, 170, 219, 0.2);
+}
+
+[data-theme="messi"] .greeting-title {
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }

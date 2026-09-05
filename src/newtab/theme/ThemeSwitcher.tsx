@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFlagCheckered, faMoon, faPalette, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faCubes, faFlagCheckered, faFutbol, faIndustry, faMoon, faPalette, faSun } from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 import { THEMES } from "./themes";
 import { useTheme } from "./ThemeContext";
@@ -11,6 +11,9 @@ const ICONS: Record<ThemeId, IconDefinition> = {
   dark: faMoon,
   light: faSun,
   f1: faFlagCheckered,
+  minecraft: faCubes,
+  factorio: faIndustry,
+  messi: faFutbol,
 };
 
 const MARGIN = 90;

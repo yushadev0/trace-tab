@@ -1,4 +1,4 @@
-export type ThemeId = "dark" | "light" | "f1";
+export type ThemeId = "dark" | "light" | "f1" | "minecraft" | "factorio" | "messi";
 
 export interface Point {
   x: number;
