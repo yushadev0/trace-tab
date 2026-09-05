@@ -29,9 +29,8 @@
 - [x] E-posta kartındaki sağlayıcı ikonunun üzerine gelince artık bağlı hesabın adresi de gösteriliyor (`Gmail — adres@ornek.com`); çoklu hesap desteğine hazır altyapı (`accountEmail` alanı) eklendi
 - [x] E-posta özetleme artık tek seferlik toplu istek yerine e-posta başına işleniyor; bu sayede gerçek bir ilerleme çubuğu (kaç/kaç özetlendi) gösterilebiliyor. Panel henüz kapalıyken (ilk yükleme) bu çubuk chat girişinin altında beliriyor
 - [x] Ayarlar sayfasına "Önbelleği Temizle" butonu eklendi (şema değişince eski kayıtları tek tıkla sıfırlamak için)
-- [x] E-posta kartına tıklayınca ilgili e-posta doğrudan Gmail/Outlook web arayüzünde yeni sekmede açılıyor (Gmail: mesaj ID'siyle deep link, Outlook: Graph API'nin kendi `webLink` alanı)
+- [x] E-posta kartına tıklayınca yeni sekmede açılıyor: Gmail'de mesaj ID'siyle doğrudan o e-posta; Outlook'ta genel gelen kutusu (mesaja özel 3 URL kalıbı denendi, kişisel outlook.live.com hesaplarında Graph id'si OWA'nın kendi id şemasıyla örtüşmediği için güvenilir çalışmadı — kullanıcıyla karar verilen bilinçli ödünleşim)
 - [x] Tüm sayfalarda (newtab + options) scroll bar'lar artık temaya uyumlu (Minecraft'ta köşeli, diğerlerinde yuvarlak, hover'da aksan rengi)
 - [x] Scroll bar ile kartlar/balonlar arasına boşluk eklendi (dip dibe duruyordu)
-- [x] Outlook e-posta linki artık tam uygulama arayüzünü (klasörler + gelen kutusu listesi) o mesaj seçiliyken açıyor, sadece izole okuma görünümü değil — henüz kullanıcı tarafından doğrulanmadı, resmi belgelenmiş bir Graph API alanı değil
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir
