@@ -207,8 +207,8 @@ html[data-theme="light"] {
 [data-theme="minecraft"] .chat-bubble,
 [data-theme="minecraft"] .email-card,
 [data-theme="minecraft"] .icon-btn,
-[data-theme="minecraft"] .theme-switcher__handle,
-[data-theme="minecraft"] .theme-switcher__btn {
+[data-theme="minecraft"] .btn,
+[data-theme="minecraft"] .theme-card {
   border-radius: 0;
   border: 2px solid;
   border-color: var(--mc-bevel-light) var(--mc-bevel-dark) var(--mc-bevel-dark) var(--mc-bevel-light);

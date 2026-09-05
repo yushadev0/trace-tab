@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLinkSlash, faPlug } from "@fortawesome/free-solid-svg-icons";
 import type { GmailConnectionRequest, GmailConnectionResponse } from "../../shared/types";
 
 function sendGmailMessage(request: GmailConnectionRequest): Promise<GmailConnectionResponse> {
@@ -38,20 +40,20 @@ export default function GmailConnection() {
   return (
     <div>
       {email ? (
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontSize: 13 }}>
+        <div className="gmail-row">
+          <span className="gmail-email">
             Bağlı: <strong>{email}</strong>
           </span>
-          <button onClick={disconnect} disabled={loading} style={{ padding: "4px 10px", fontSize: 13 }}>
-            Bağlantıyı kes
+          <button className="btn btn--ghost" onClick={disconnect} disabled={loading}>
+            <FontAwesomeIcon icon={faLinkSlash} /> Bağlantıyı kes
           </button>
         </div>
       ) : (
-        <button onClick={connect} disabled={loading} style={{ padding: "6px 14px", fontSize: 13 }}>
-          {loading ? "Kontrol ediliyor…" : "Gmail'e Bağlan"}
+        <button className="btn" onClick={connect} disabled={loading}>
+          <FontAwesomeIcon icon={faPlug} /> {loading ? "Kontrol ediliyor…" : "Gmail'e Bağlan"}
         </button>
       )}
-      {error && <p style={{ color: "#c00", fontSize: 13, marginTop: 6 }}>{error}</p>}
+      {error && <p className="gmail-error">{error}</p>}
     </div>
   );
 }

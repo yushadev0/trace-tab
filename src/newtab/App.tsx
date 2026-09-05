@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Chat from "./components/Chat";
 import EmailDigest from "./components/EmailDigest";
-import ThemeSwitcher from "./theme/ThemeSwitcher";
 
 export default function App() {
   const [chatMode, setChatMode] = useState(false);
@@ -16,8 +15,6 @@ export default function App() {
       </section>
 
       <EmailDigest hidden={chatMode} />
-
-      <ThemeSwitcher />
     </main>
   );
 }

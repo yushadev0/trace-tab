@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
 import GmailConnection from "./components/GmailConnection";
+import PasswordField from "./components/PasswordField";
+import ThemeGrid from "./components/ThemeGrid";
 import {
   DEFAULT_GREETING_SUBTITLE,
   DEFAULT_GREETING_TITLE,
@@ -48,80 +52,81 @@ export default function App() {
   }
 
   return (
-    <main style={{ fontFamily: "system-ui, sans-serif", padding: 24, maxWidth: 480 }}>
-      <h1>Ayarlar</h1>
-      <form onSubmit={handleSave}>
-        <label htmlFor="greeting-title" style={{ display: "block", marginBottom: 8, fontWeight: 600 }}>
-          Karşılama başlığı
-        </label>
-        <input
-          id="greeting-title"
-          type="text"
-          value={greetingTitle}
-          onChange={(e) => setGreetingTitleState(e.target.value)}
-          placeholder={DEFAULT_GREETING_TITLE}
-          style={{ width: "100%", padding: 8, fontSize: 14, boxSizing: "border-box" }}
-        />
+    <main className="options-root">
+      <div className="options-panel panel">
+        <div className="flag-strip" aria-hidden="true" />
+        <div className="options-header">
+          <h1>Ayarlar</h1>
+          <p>AI New Tab için görünüm ve bağlantı tercihlerin.</p>
+        </div>
 
-        <label htmlFor="greeting-subtitle" style={{ display: "block", marginTop: 16, marginBottom: 8, fontWeight: 600 }}>
-          Karşılama alt yazısı
-        </label>
-        <input
-          id="greeting-subtitle"
-          type="text"
-          value={greetingSubtitle}
-          onChange={(e) => setGreetingSubtitleState(e.target.value)}
-          placeholder={DEFAULT_GREETING_SUBTITLE}
-          style={{ width: "100%", padding: 8, fontSize: 14, boxSizing: "border-box" }}
-        />
-        <p style={{ fontSize: 13, color: "#666" }}>Yeni sekme sayfasının üst kısmında görünür.</p>
+        <form onSubmit={handleSave}>
+          <section className="options-section">
+            <h2>Görünüm</h2>
+            <p className="hint">Yeni sekme teması. Seçim hemen kaydedilir.</p>
+            <ThemeGrid />
 
-        <label htmlFor="gemini-key" style={{ display: "block", marginTop: 20, marginBottom: 8, fontWeight: 600 }}>
-          Gemini API Key
-        </label>
-        <input
-          id="gemini-key"
-          type="password"
-          value={apiKey}
-          onChange={(e) => setApiKey(e.target.value)}
-          placeholder="AIza..."
-          style={{ width: "100%", padding: 8, fontSize: 14, boxSizing: "border-box" }}
-          autoComplete="off"
-        />
-        <p style={{ fontSize: 13, color: "#666" }}>
-          Google AI Studio üzerinden ücretsiz alabilirsin. Key sadece bu tarayıcıda yerel olarak
-          saklanır (chrome.storage.local).
-        </p>
+            <div className="field" style={{ marginTop: 20 }}>
+              <label htmlFor="greeting-title">Karşılama başlığı</label>
+              <input
+                id="greeting-title"
+                type="text"
+                value={greetingTitle}
+                onChange={(e) => setGreetingTitleState(e.target.value)}
+                placeholder={DEFAULT_GREETING_TITLE}
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="greeting-subtitle">Karşılama alt yazısı</label>
+              <input
+                id="greeting-subtitle"
+                type="text"
+                value={greetingSubtitle}
+                onChange={(e) => setGreetingSubtitleState(e.target.value)}
+                placeholder={DEFAULT_GREETING_SUBTITLE}
+              />
+            </div>
+          </section>
 
-        <label htmlFor="tavily-key" style={{ display: "block", marginTop: 20, marginBottom: 8, fontWeight: 600 }}>
-          Tavily API Key
-        </label>
-        <input
-          id="tavily-key"
-          type="password"
-          value={tavilyKey}
-          onChange={(e) => setTavilyKey(e.target.value)}
-          placeholder="tvly-..."
-          style={{ width: "100%", padding: 8, fontSize: 14, boxSizing: "border-box" }}
-          autoComplete="off"
-        />
-        <p style={{ fontSize: 13, color: "#666" }}>
-          Hızlı Soru'daki "Web'de ara" seçeneği için gerekli. Ücretsiz key:{" "}
-          <a href="https://app.tavily.com" target="_blank" rel="noreferrer">
-            app.tavily.com
-          </a>{" "}
-          (ayda 1.000 ücretsiz sorgu, kart bilgisi gerekmiyor).
-        </p>
+          <section className="options-section">
+            <h2>Yapay Zeka</h2>
+            <p className="hint">Sohbet ve e-posta özetleri için gerekli.</p>
 
-        <button type="submit" style={{ padding: "8px 16px", fontSize: 14 }}>
-          Kaydet
-        </button>
-        {status === "saved" && <span style={{ marginLeft: 12, color: "green" }}>Kaydedildi ✓</span>}
-      </form>
+            <div className="field">
+              <label htmlFor="gemini-key">Gemini API Key</label>
+              <PasswordField id="gemini-key" value={apiKey} onChange={setApiKey} placeholder="AIza..." />
+              <p className="field-help">
+                Google AI Studio üzerinden ücretsiz alabilirsin. Key sadece bu tarayıcıda yerel olarak saklanır.
+              </p>
+            </div>
 
-      <h2 style={{ marginTop: 32 }}>Gmail</h2>
-      <GmailConnection />
-      <p style={{ fontSize: 13, color: "#666", marginTop: 20 }}>Outlook desteği daha sonra eklenecek.</p>
+            <div className="field">
+              <label htmlFor="tavily-key">Tavily API Key</label>
+              <PasswordField id="tavily-key" value={tavilyKey} onChange={setTavilyKey} placeholder="tvly-..." />
+              <p className="field-help">
+                Hızlı Soru'daki "Web'de ara" seçeneği için gerekli. Ücretsiz key:{" "}
+                <a href="https://app.tavily.com" target="_blank" rel="noreferrer">
+                  app.tavily.com
+                </a>{" "}
+                (ayda 1.000 ücretsiz sorgu, kart bilgisi gerekmiyor).
+              </p>
+            </div>
+          </section>
+
+          <div className="save-row">
+            <button type="submit" className="btn">
+              <FontAwesomeIcon icon={faFloppyDisk} /> Kaydet
+            </button>
+            {status === "saved" && <span className="save-status">Kaydedildi ✓</span>}
+          </div>
+        </form>
+
+        <section className="options-section">
+          <h2>Gmail</h2>
+          <p className="hint">Gelen kutusu özetleri için bağlan. Outlook desteği daha sonra eklenecek.</p>
+          <GmailConnection />
+        </section>
+      </div>
     </main>
   );
 }

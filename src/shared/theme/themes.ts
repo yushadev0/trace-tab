@@ -1,4 +1,4 @@
-import type { ThemeId } from "../../shared/types";
+import type { ThemeId } from "../types";
 
 export interface ThemeMeta {
   id: ThemeId;

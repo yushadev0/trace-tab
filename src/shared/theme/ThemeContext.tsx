@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import type { ThemeId } from "../../shared/types";
-import { getTheme, setTheme as persistTheme } from "../../shared/storage";
+import type { ThemeId } from "../types";
+import { getTheme, setTheme as persistTheme } from "../storage";
 import { DEFAULT_THEME } from "./themes";
 
 interface ThemeContextValue {
