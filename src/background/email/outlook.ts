@@ -175,17 +175,18 @@ export async function disconnectOutlook(): Promise<void> {
 }
 
 /**
- * Graph'ın verdiği `webLink`, mesajı gelen kutusu/klasör listesi olmadan tek
- * başına bir "okuma" görünümünde açar. Bunun yerine OWA'nın kendi gelen
- * kutusu gezinme rotasını (tarayıcıda gelen kutusunda bir e-postaya
- * tıklayınca oluşan URL biçimi) taklit ediyoruz; aynı host (kişisel hesapta
- * outlook.live.com, kurumsal hesapta outlook.office.com) korunuyor.
+ * Graph'ın verdiği mesaj id'si, OWA'nın kendi arayüzünün beklediği id
+ * biçimiyle (özellikle kişisel/outlook.live.com hesaplarda) birebir
+ * örtüşmüyor; mesaja özel derin bağlantı denemeleri güvenilir çalışmadı.
+ * Bunun yerine aynı hostu (kişisel hesapta outlook.live.com, kurumsal
+ * hesapta outlook.office.com) kullanıp genel gelen kutusunu açıyoruz —
+ * tam uygulama arayüzü (klasörler + liste) garanti çalışıyor.
  */
-function buildOutlookMailLink(webLink: string | undefined, id: string): string {
+function buildOutlookMailLink(webLink: string | undefined): string {
   if (!webLink) return "";
   try {
     const origin = new URL(webLink).origin;
-    return `${origin}/mail/inbox/id/${encodeURIComponent(id)}`;
+    return `${origin}/mail/inbox`;
   } catch {
     return webLink;
   }
@@ -230,7 +231,7 @@ export async function fetchRecentOutlookEmails(
       from,
       date: m.receivedDateTime || "",
       snippet: m.bodyPreview ?? "",
-      link: buildOutlookMailLink(m.webLink, m.id),
+      link: buildOutlookMailLink(m.webLink),
     };
   });
 }
