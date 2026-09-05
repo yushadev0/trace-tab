@@ -95,3 +95,7 @@ export async function getEmailCache(): Promise<Record<string, EmailCacheEntry>> 
 export async function setEmailCache(cache: Record<string, EmailCacheEntry>): Promise<void> {
   await chrome.storage.local.set({ [EMAIL_CACHE_KEY]: cache });
 }
+
+export async function clearEmailCache(): Promise<void> {
+  await chrome.storage.local.remove(EMAIL_CACHE_KEY);
+}

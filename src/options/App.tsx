@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faCopy, faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCopy, faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import EmailProviderConnection from "./components/EmailProviderConnection";
 import PasswordField from "./components/PasswordField";
 import ThemeGrid from "./components/ThemeGrid";
 import {
   DEFAULT_GREETING_SUBTITLE,
   DEFAULT_GREETING_TITLE,
+  clearEmailCache,
   getGeminiApiKey,
   getGreetingSubtitle,
   getGreetingTitle,
@@ -29,6 +30,7 @@ export default function App() {
   const [greetingSubtitle, setGreetingSubtitleState] = useState(DEFAULT_GREETING_SUBTITLE);
   const [status, setStatus] = useState<"idle" | "saved">("idle");
   const [copied, setCopied] = useState(false);
+  const [cacheCleared, setCacheCleared] = useState(false);
 
   useEffect(() => {
     getGeminiApiKey().then((key) => {
@@ -65,6 +67,12 @@ export default function App() {
     await navigator.clipboard.writeText(OUTLOOK_REDIRECT_URI);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  }
+
+  async function handleClearCache() {
+    await clearEmailCache();
+    setCacheCleared(true);
+    setTimeout(() => setCacheCleared(false), 1500);
   }
 
   return (
@@ -180,6 +188,19 @@ export default function App() {
             <div className="field">
               <div className="field-title">Outlook</div>
               <EmailProviderConnection provider="outlook" connectLabel="Outlook'a Bağlan" />
+            </div>
+
+            <div className="field">
+              <div className="field-title">E-posta özet önbelleği</div>
+              <div className="save-row" style={{ marginTop: 0 }}>
+                <button type="button" className="btn btn--ghost" onClick={handleClearCache}>
+                  <FontAwesomeIcon icon={faTrashCan} /> Önbelleği Temizle
+                </button>
+                {cacheCleared && <span className="save-status">Temizlendi ✓</span>}
+              </div>
+              <p className="field-help">
+                Daha önce özetlenmiş e-postaların kaydını siler; bir sonraki yenilemede hepsi yeniden özetlenir.
+              </p>
             </div>
           </section>
 
