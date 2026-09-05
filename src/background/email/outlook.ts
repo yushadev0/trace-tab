@@ -174,6 +174,23 @@ export async function disconnectOutlook(): Promise<void> {
   await clearOutlookAccount();
 }
 
+/**
+ * Graph'ın verdiği `webLink`, mesajı gelen kutusu/klasör listesi olmadan tek
+ * başına bir "okuma" görünümünde açar. Aynı hostu (kişisel hesapta
+ * outlook.live.com, kurumsal hesapta outlook.office.com) kullanıp yolu
+ * "mail/deeplink/read/<id>" yaparsak tam uygulama arayüzü (klasörler,
+ * gelen kutusu listesi) o mesaj seçiliyken açılıyor.
+ */
+function buildOutlookMailLink(webLink: string | undefined, id: string): string {
+  if (!webLink) return "";
+  try {
+    const origin = new URL(webLink).origin;
+    return `${origin}/mail/deeplink/read/${encodeURIComponent(id)}`;
+  } catch {
+    return webLink;
+  }
+}
+
 /** Son `maxResults` okunmamış Outlook e-postasının konu/gönderen/özet bilgisini getirir. */
 export async function fetchRecentOutlookEmails(
   maxResults: number,
@@ -213,7 +230,7 @@ export async function fetchRecentOutlookEmails(
       from,
       date: m.receivedDateTime || "",
       snippet: m.bodyPreview ?? "",
-      link: m.webLink ?? "",
+      link: buildOutlookMailLink(m.webLink, m.id),
     };
   });
 }

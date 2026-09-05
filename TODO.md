@@ -31,5 +31,7 @@
 - [x] Ayarlar sayfasına "Önbelleği Temizle" butonu eklendi (şema değişince eski kayıtları tek tıkla sıfırlamak için)
 - [x] E-posta kartına tıklayınca ilgili e-posta doğrudan Gmail/Outlook web arayüzünde yeni sekmede açılıyor (Gmail: mesaj ID'siyle deep link, Outlook: Graph API'nin kendi `webLink` alanı)
 - [x] Tüm sayfalarda (newtab + options) scroll bar'lar artık temaya uyumlu (Minecraft'ta köşeli, diğerlerinde yuvarlak, hover'da aksan rengi)
+- [x] Scroll bar ile kartlar/balonlar arasına boşluk eklendi (dip dibe duruyordu)
+- [x] Outlook e-posta linki artık tam uygulama arayüzünü (klasörler + gelen kutusu listesi) o mesaj seçiliyken açıyor, sadece izole okuma görünümü değil — henüz kullanıcı tarafından doğrulanmadı, resmi belgelenmiş bir Graph API alanı değil
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir
