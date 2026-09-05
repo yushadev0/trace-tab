@@ -1,3 +1,4 @@
+import type { ChatMessageDto } from "../../shared/types";
 import type { AIProvider } from "./provider";
 import { acquireGeminiSlot } from "./rateLimiter";
 
@@ -73,14 +74,16 @@ async function fetchWithRateLimit(url: string, init: RequestInit): Promise<Respo
 
 export function createGeminiProvider(apiKey: string): AIProvider {
   return {
-    async streamGenerateText(prompt, onChunk, signal) {
+    async streamGenerateText(messages: ChatMessageDto[], onChunk, signal) {
       const timeout = withIdleTimeout(signal, STREAM_IDLE_TIMEOUT_MS);
 
       try {
         const response = await fetchWithRateLimit(endpoint(apiKey), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }] }),
+          body: JSON.stringify({
+            contents: messages.map((m) => ({ role: m.role, parts: [{ text: m.text }] })),
+          }),
           signal: timeout.signal,
         });
 

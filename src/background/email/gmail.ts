@@ -1,4 +1,5 @@
 export interface EmailSummaryInput {
+  id: string;
   subject: string;
   from: string;
   date: string;
@@ -54,11 +55,15 @@ export async function disconnectGmail(): Promise<void> {
   }
 }
 
-/** Son `maxResults` e-postanın konu/gönderen/özet bilgisini getirir. */
+/** Son `maxResults` okunmamış e-postanın konu/gönderen/özet bilgisini getirir. */
 export async function fetchRecentEmails(maxResults = 10, signal?: AbortSignal): Promise<EmailSummaryInput[]> {
   const token = await getAuthToken(false);
 
-  const list = (await gmailFetch(`messages?maxResults=${maxResults}&labelIds=INBOX`, token, signal)) as {
+  const list = (await gmailFetch(
+    `messages?maxResults=${maxResults}&labelIds=INBOX&labelIds=UNREAD`,
+    token,
+    signal,
+  )) as {
     messages?: { id: string }[];
   };
 
@@ -74,7 +79,8 @@ export async function fetchRecentEmails(maxResults = 10, signal?: AbortSignal): 
   );
 
   return (details as { payload?: { headers?: { name?: string; value?: string }[] }; snippet?: string }[]).map(
-    (d) => ({
+    (d, i) => ({
+      id: messages[i].id,
       subject: headerValue(d.payload?.headers, "Subject") || "(konu yok)",
       from: headerValue(d.payload?.headers, "From") || "(bilinmiyor)",
       date: headerValue(d.payload?.headers, "Date") || "",

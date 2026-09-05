@@ -1,15 +1,9 @@
+import type { EmailCardDto } from "../../shared/types";
 import type { EmailSummaryInput } from "./gmail";
 
-export type EmailPriority = "düşük" | "orta" | "yüksek";
+export type EmailCard = EmailCardDto & { id: string };
 
-export interface EmailCard {
-  from: string;
-  date: string;
-  priority: EmailPriority;
-  summary: string;
-}
-
-const PRIORITIES: EmailPriority[] = ["düşük", "orta", "yüksek"];
+const PRIORITIES: EmailCardDto["priority"][] = ["düşük", "orta", "yüksek"];
 
 export function buildDigestPrompt(emails: EmailSummaryInput[]): string {
   const list = emails
@@ -35,8 +29,9 @@ export function parseDigest(raw: string, emails: EmailSummaryInput[]): EmailCard
     if (!Array.isArray(parsed)) return [];
 
     return parsed.map((item, i) => {
-      const priority = PRIORITIES.includes(item?.priority) ? (item.priority as EmailPriority) : "orta";
+      const priority = PRIORITIES.includes(item?.priority) ? (item.priority as EmailCardDto["priority"]) : "orta";
       return {
+        id: emails[i]?.id ?? String(i),
         from: typeof item?.from === "string" && item.from ? item.from : emails[i]?.from ?? "(bilinmiyor)",
         date: typeof item?.date === "string" && item.date ? item.date : emails[i]?.date ?? "",
         priority,

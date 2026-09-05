@@ -1,11 +1,13 @@
 import { createGeminiProvider } from "./ai/geminiProvider";
 import { connectGmail, disconnectGmail, fetchRecentEmails, getConnectedEmail } from "./email/gmail";
-import { buildDigestPrompt, parseDigest } from "./email/summarizer";
+import { buildDigestPrompt, parseDigest, type EmailCard } from "./email/summarizer";
 import { buildGroundedPrompt, searchWeb } from "./search/tavilySearch";
-import { getGeminiApiKey, getTavilyApiKey } from "../shared/storage";
+import { getEmailCache, getGeminiApiKey, getTavilyApiKey, setEmailCache } from "../shared/storage";
 import {
   EMAIL_DIGEST_PORT,
   QUICK_ASK_PORT,
+  type ChatMessageDto,
+  type EmailCacheEntry,
   type EmailDigestResponse,
   type GmailConnectionRequest,
   type GmailConnectionResponse,
@@ -13,6 +15,8 @@ import {
   type QuickAskResponse,
   type WebSourceDto,
 } from "../shared/types";
+
+const EMAIL_CACHE_LIMIT = 300;
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("[AI New Tab] service worker installed");
@@ -84,13 +88,23 @@ function handleQuickAsk(port: chrome.runtime.Port) {
         finalPrompt = buildGroundedPrompt(message.prompt, results);
       }
 
+      const history = message.history ?? [];
+      const contents: ChatMessageDto[] = [...history, { role: "user", text: finalPrompt }];
+
       const provider = createGeminiProvider(apiKey);
-      await provider.streamGenerateText(finalPrompt, (text) => send({ type: "chunk", text }), controller.signal);
+      await provider.streamGenerateText(contents, (text) => send({ type: "chunk", text }), controller.signal);
       send({ type: "done", sources });
     } catch (err) {
       send({ type: "error", message: err instanceof Error ? err.message : String(err) });
     }
   });
+}
+
+function pruneEmailCache(cache: Record<string, EmailCacheEntry>): Record<string, EmailCacheEntry> {
+  const entries = Object.entries(cache);
+  if (entries.length <= EMAIL_CACHE_LIMIT) return cache;
+  entries.sort((a, b) => b[1].cachedAt - a[1].cachedAt);
+  return Object.fromEntries(entries.slice(0, EMAIL_CACHE_LIMIT));
 }
 
 function handleEmailDigest(port: chrome.runtime.Port) {
@@ -122,11 +136,34 @@ function handleEmailDigest(port: chrome.runtime.Port) {
         return;
       }
 
-      send({ type: "status", message: "Özetleniyor…" });
-      const provider = createGeminiProvider(apiKey);
-      const prompt = buildDigestPrompt(emails);
-      const raw = await provider.generateJson(prompt, controller.signal);
-      const cards = parseDigest(raw, emails);
+      const cache = await getEmailCache();
+      const cachedCards: EmailCard[] = [];
+      const uncached: typeof emails = [];
+      for (const email of emails) {
+        const hit = cache[email.id];
+        if (hit) cachedCards.push(hit);
+        else uncached.push(email);
+      }
+
+      let newCards: EmailCard[] = [];
+      if (uncached.length > 0) {
+        send({ type: "status", message: `Özetleniyor… (${uncached.length} yeni e-posta)` });
+        const provider = createGeminiProvider(apiKey);
+        const prompt = buildDigestPrompt(uncached);
+        const raw = await provider.generateJson(prompt, controller.signal);
+        newCards = parseDigest(raw, uncached);
+
+        const now = Date.now();
+        const updatedCache = { ...cache };
+        for (const card of newCards) {
+          updatedCache[card.id] = { ...card, cachedAt: now };
+        }
+        await setEmailCache(pruneEmailCache(updatedCache));
+      }
+
+      const byId = new Map([...cachedCards, ...newCards].map((c) => [c.id, c]));
+      const cards = emails.map((e) => byId.get(e.id)).filter((c): c is EmailCard => Boolean(c));
+
       send({ type: "cards", cards });
       send({ type: "done" });
     } catch (err) {

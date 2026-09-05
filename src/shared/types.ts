@@ -1,3 +1,10 @@
+export type ThemeId = "dark" | "light" | "f1";
+
+export interface Point {
+  x: number;
+  y: number;
+}
+
 export const QUICK_ASK_PORT = "quick-ask";
 
 export interface WebSourceDto {
@@ -5,10 +12,19 @@ export interface WebSourceDto {
   uri: string;
 }
 
+export type ChatRole = "user" | "model";
+
+export interface ChatMessageDto {
+  role: ChatRole;
+  text: string;
+}
+
 export interface QuickAskRequest {
   prompt: string;
   /** true ise Google Search grounding ile gerçek zamanlı web sonuçları kullanılır. */
   grounded?: boolean;
+  /** Bu isteğe kadarki önceki sohbet turları (görüntülenen soru/cevap metinleri). */
+  history?: ChatMessageDto[];
 }
 
 export type QuickAskResponse =
@@ -23,6 +39,12 @@ export interface EmailCardDto {
   date: string;
   priority: "düşük" | "orta" | "yüksek";
   summary: string;
+}
+
+/** Önbellekte tutulan, daha önce özetlenmiş bir e-posta kaydı. */
+export interface EmailCacheEntry extends EmailCardDto {
+  id: string;
+  cachedAt: number;
 }
 
 export type EmailDigestResponse =
