@@ -52,12 +52,12 @@ export default function EmailProviderConnection({ provider, connectLabel }: Emai
           <span className="gmail-email">
             Bağlı: <strong>{email}</strong>
           </span>
-          <button className="btn btn--ghost" onClick={disconnect} disabled={loading}>
+          <button type="button" className="btn btn--ghost" onClick={disconnect} disabled={loading}>
             <FontAwesomeIcon icon={faLinkSlash} /> Bağlantıyı kes
           </button>
         </div>
       ) : (
-        <button className="btn" onClick={connect} disabled={loading}>
+        <button type="button" className="btn" onClick={connect} disabled={loading}>
           <FontAwesomeIcon icon={faPlug} /> {loading ? "Kontrol ediliyor…" : connectLabel}
         </button>
       )}

@@ -144,7 +144,11 @@ export default function App() {
                 id="outlook-client-id"
                 type="text"
                 value={outlookClientId}
-                onChange={(e) => setOutlookClientIdState(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setOutlookClientIdState(value);
+                  void setOutlookClientId(value.trim());
+                }}
                 placeholder="00000000-0000-0000-0000-000000000000"
               />
               <p className="field-help">
@@ -152,8 +156,8 @@ export default function App() {
                 <a href="https://portal.azure.com" target="_blank" rel="noreferrer">
                   Azure Portal
                 </a>
-                'da ücretsiz bir uygulama kaydı oluşturup Client ID'sini buraya yapıştır ve <strong>Kaydet</strong>'e
-                bas. Uygulama kaydında yönlendirme URI'si (platform: Web) olarak şunu ekle:
+                'da ücretsiz bir uygulama kaydı oluşturup Client ID'sini buraya yapıştır (otomatik kaydedilir).
+                Uygulama kaydında yönlendirme URI'si (platform: Web) olarak şunu ekle:
               </p>
               <div className="field-with-toggle">
                 <input type="text" value={OUTLOOK_REDIRECT_URI} readOnly />
