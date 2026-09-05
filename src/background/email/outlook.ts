@@ -1,8 +1,10 @@
-import { getOutlookAccount, getOutlookClientId, setOutlookAccount, clearOutlookAccount } from "../../shared/storage";
+import { getOutlookAccount, setOutlookAccount, clearOutlookAccount } from "../../shared/storage";
 import type { EmailSummaryInput } from "../../shared/types";
 
 const AUTHORITY = "https://login.microsoftonline.com/common/oauth2/v2.0";
 const SCOPES = "offline_access Mail.Read User.Read";
+/** AI New Tab Email Service — tüm kullanıcılar aynı Azure uygulamasını paylaşıyor (Gmail ile aynı model). */
+const OUTLOOK_CLIENT_ID = "3ac88b95-c611-4ce6-9f54-9005834e70c7";
 /** Token'ı süresi dolmadan bir dakika önce yenilenmiş say. */
 const EXPIRY_BUFFER_MS = 60_000;
 
@@ -30,14 +32,6 @@ interface TokenResponse {
   expires_in: number;
   error?: string;
   error_description?: string;
-}
-
-async function requestClientId(): Promise<string> {
-  const clientId = await getOutlookClientId();
-  if (!clientId) {
-    throw new Error("Outlook Client ID ayarlanmamış. Ayarlar sayfasından ekleyin.");
-  }
-  return clientId;
 }
 
 async function exchangeToken(params: URLSearchParams): Promise<TokenResponse> {
@@ -125,8 +119,7 @@ async function getValidAccessToken(): Promise<string> {
 
   if (!account.refreshToken) throw new Error("Outlook oturumu süresi doldu. Tekrar bağlanın.");
 
-  const clientId = await requestClientId();
-  const tokens = await refreshAccessToken(clientId, account.refreshToken);
+  const tokens = await refreshAccessToken(OUTLOOK_CLIENT_ID, account.refreshToken);
   const updated = {
     email: account.email,
     accessToken: tokens.access_token,
@@ -139,8 +132,7 @@ async function getValidAccessToken(): Promise<string> {
 
 /** Etkileşimli olarak Outlook'a bağlanır ve bağlı hesabın e-posta adresini döndürür. */
 export async function connectOutlook(): Promise<string> {
-  const clientId = await requestClientId();
-  const tokens = await authorizeInteractive(clientId);
+  const tokens = await authorizeInteractive(OUTLOOK_CLIENT_ID);
 
   const profile = (await graphFetch("me", tokens.access_token)) as {
     mail?: string;
