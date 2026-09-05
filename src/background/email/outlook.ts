@@ -176,16 +176,16 @@ export async function disconnectOutlook(): Promise<void> {
 
 /**
  * Graph'ın verdiği `webLink`, mesajı gelen kutusu/klasör listesi olmadan tek
- * başına bir "okuma" görünümünde açar. Aynı hostu (kişisel hesapta
- * outlook.live.com, kurumsal hesapta outlook.office.com) kullanıp yolu
- * "mail/deeplink/read/<id>" yaparsak tam uygulama arayüzü (klasörler,
- * gelen kutusu listesi) o mesaj seçiliyken açılıyor.
+ * başına bir "okuma" görünümünde açar. Bunun yerine OWA'nın kendi gelen
+ * kutusu gezinme rotasını (tarayıcıda gelen kutusunda bir e-postaya
+ * tıklayınca oluşan URL biçimi) taklit ediyoruz; aynı host (kişisel hesapta
+ * outlook.live.com, kurumsal hesapta outlook.office.com) korunuyor.
  */
 function buildOutlookMailLink(webLink: string | undefined, id: string): string {
   if (!webLink) return "";
   try {
     const origin = new URL(webLink).origin;
-    return `${origin}/mail/deeplink/read/${encodeURIComponent(id)}`;
+    return `${origin}/mail/inbox/id/${encodeURIComponent(id)}`;
   } catch {
     return webLink;
   }
