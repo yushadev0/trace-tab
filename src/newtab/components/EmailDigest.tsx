@@ -1,52 +1,21 @@
-import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
-import { EMAIL_DIGEST_PORT, type EmailCardDto, type EmailDigestResponse, type EmailProvider } from "../../shared/types";
+import type { EmailCardDto, EmailProvider } from "../../shared/types";
 
 const PROVIDER_ICON = { gmail: faGoogle, outlook: faMicrosoft } as const;
 const PROVIDER_LABEL: Record<EmailProvider, string> = { gmail: "Gmail", outlook: "Outlook" };
 
-export default function EmailDigest({ hidden }: { hidden: boolean }) {
-  const [cards, setCards] = useState<EmailCardDto[]>([]);
-  const [statusMessage, setStatusMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "running" | "error">("idle");
-  const [error, setError] = useState("");
+interface EmailDigestProps {
+  hidden: boolean;
+  cards: EmailCardDto[];
+  statusMessage: string;
+  status: "idle" | "running" | "error";
+  error: string;
+  refresh: () => void;
+}
 
-  function summarize() {
-    if (status === "running") return;
-
-    setError("");
-    setStatusMessage("Başlatılıyor…");
-    setStatus("running");
-
-    const port = chrome.runtime.connect({ name: EMAIL_DIGEST_PORT });
-
-    port.onMessage.addListener((message: EmailDigestResponse) => {
-      if (message.type === "status") {
-        setStatusMessage(message.message);
-      } else if (message.type === "cards") {
-        setCards(message.cards);
-      } else if (message.type === "done") {
-        setStatus("idle");
-        setStatusMessage("");
-        port.disconnect();
-      } else if (message.type === "error") {
-        setError(message.message);
-        setStatus("error");
-        setStatusMessage("");
-        port.disconnect();
-      }
-    });
-
-    port.postMessage({});
-  }
-
-  useEffect(() => {
-    summarize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+export default function EmailDigest({ hidden, cards, statusMessage, status, error, refresh }: EmailDigestProps) {
   const open = !hidden && (cards.length > 0 || status === "error");
 
   return (
@@ -57,7 +26,7 @@ export default function EmailDigest({ hidden }: { hidden: boolean }) {
           <h2>📧 Gelen Kutusu</h2>
           <button
             className="icon-btn"
-            onClick={summarize}
+            onClick={refresh}
             disabled={status === "running"}
             title="Yenile"
             aria-label="Yenile"
@@ -83,11 +52,16 @@ export default function EmailDigest({ hidden }: { hidden: boolean }) {
               <div className="email-card__meta">
                 <span className={`email-card__badge email-card__badge--${card.priority}`}>{card.priority}</span>
                 <span className="email-card__meta-right">
-                  <FontAwesomeIcon
-                    icon={PROVIDER_ICON[card.provider]}
+                  <span
                     className="email-card__provider"
-                    title={PROVIDER_LABEL[card.provider]}
-                  />
+                    title={
+                      card.accountEmail
+                        ? `${PROVIDER_LABEL[card.provider]} — ${card.accountEmail}`
+                        : PROVIDER_LABEL[card.provider]
+                    }
+                  >
+                    <FontAwesomeIcon icon={PROVIDER_ICON[card.provider]} />
+                  </span>
                   <span className="email-card__date">{card.date}</span>
                 </span>
               </div>

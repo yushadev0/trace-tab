@@ -175,7 +175,11 @@ export async function disconnectOutlook(): Promise<void> {
 }
 
 /** Son `maxResults` okunmamış Outlook e-postasının konu/gönderen/özet bilgisini getirir. */
-export async function fetchRecentOutlookEmails(maxResults = 10, signal?: AbortSignal): Promise<EmailSummaryInput[]> {
+export async function fetchRecentOutlookEmails(
+  maxResults: number,
+  accountEmail: string,
+  signal?: AbortSignal,
+): Promise<EmailSummaryInput[]> {
   const token = await getValidAccessToken();
 
   const query = new URLSearchParams({
@@ -203,6 +207,7 @@ export async function fetchRecentOutlookEmails(maxResults = 10, signal?: AbortSi
     return {
       id: m.id,
       provider: "outlook" as const,
+      accountEmail,
       subject: m.subject || "(konu yok)",
       from,
       date: m.receivedDateTime || "",

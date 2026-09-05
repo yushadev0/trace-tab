@@ -25,5 +25,8 @@
 - [x] Outlook bağlantısı eklendi (Microsoft Graph, PKCE OAuth ile `chrome.identity.launchWebAuthFlow`); kullanıcı kendi Azure App Registration'ının Client ID'sini Ayarlar'a giriyor, yönlendirme URI'si sayfada kopyalanabilir olarak gösteriliyor
 - [x] E-posta kartlarında sağlayıcı ikonu (Gmail/Outlook) gösteriliyor; her iki hesap da bağlıysa özetler tarihe göre birleştirilip en yeni 10 tanesi gösteriliyor
 - [x] "Gönderici" alanı artık her zaman ham e-posta başlığından geliyor (Gemini'nin yeniden biçimlendirmesine güvenilmiyor) — bazı kartlarda adres eksik kalma sorunu giderildi
+- [x] Outlook OAuth "Bağlan" butonundaki form-submit yarış durumu ve Azure kurulum sorunları (userAudience, client_secret, cross-origin token redemption) çözüldü — Outlook bağlantısı uçtan uca çalışıyor
+- [x] E-posta kartındaki sağlayıcı ikonunun üzerine gelince artık bağlı hesabın adresi de gösteriliyor (`Gmail — adres@ornek.com`); çoklu hesap desteğine hazır altyapı (`accountEmail` alanı) eklendi
+- [x] E-posta özetleme artık tek seferlik toplu istek yerine e-posta başına işleniyor; bu sayede gerçek bir ilerleme çubuğu (kaç/kaç özetlendi) gösterilebiliyor. Panel henüz kapalıyken (ilk yükleme) bu çubuk chat girişinin altında beliriyor
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir

@@ -148,8 +148,9 @@ function handleEmailDigest(port: chrome.runtime.Port) {
 
       send({ type: "status", message: "E-postalar getiriliyor…" });
       const fetched: EmailSummaryInput[] = [];
-      if (gmailEmail) fetched.push(...(await fetchRecentEmails(EMAIL_DIGEST_LIMIT, controller.signal)));
-      if (outlookEmail) fetched.push(...(await fetchRecentOutlookEmails(EMAIL_DIGEST_LIMIT, controller.signal)));
+      if (gmailEmail) fetched.push(...(await fetchRecentEmails(EMAIL_DIGEST_LIMIT, gmailEmail, controller.signal)));
+      if (outlookEmail)
+        fetched.push(...(await fetchRecentOutlookEmails(EMAIL_DIGEST_LIMIT, outlookEmail, controller.signal)));
 
       const emails = fetched
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -170,19 +171,25 @@ function handleEmailDigest(port: chrome.runtime.Port) {
         else uncached.push(email);
       }
 
-      let newCards: EmailCard[] = [];
+      const newCards: EmailCard[] = [];
       if (uncached.length > 0) {
         send({ type: "status", message: `Özetleniyor… (${uncached.length} yeni e-posta)` });
         const provider = createGeminiProvider(apiKey);
-        const prompt = buildDigestPrompt(uncached);
-        const raw = await provider.generateJson(prompt, controller.signal);
-        newCards = parseDigest(raw, uncached);
-
-        const now = Date.now();
         const updatedCache = { ...cache };
-        for (const card of newCards) {
-          updatedCache[cacheKey(card)] = { ...card, cachedAt: now };
+
+        for (let i = 0; i < uncached.length; i++) {
+          send({ type: "progress", processed: i, total: uncached.length });
+          const email = uncached[i];
+          const prompt = buildDigestPrompt([email]);
+          const raw = await provider.generateJson(prompt, controller.signal);
+          const [card] = parseDigest(raw, [email]);
+          if (card) {
+            newCards.push(card);
+            updatedCache[cacheKey(card)] = { ...card, cachedAt: Date.now() };
+          }
         }
+        send({ type: "progress", processed: uncached.length, total: uncached.length });
+
         await setEmailCache(pruneEmailCache(updatedCache));
       }
 

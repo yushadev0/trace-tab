@@ -35,6 +35,8 @@ export type EmailProvider = "gmail" | "outlook";
 export interface EmailSummaryInput {
   id: string;
   provider: EmailProvider;
+  /** Bu e-postanın geldiği bağlı hesabın adresi (ör. birden fazla Gmail hesabı bağlanınca ayırt etmek için). */
+  accountEmail: string;
   subject: string;
   from: string;
   date: string;
@@ -43,6 +45,7 @@ export interface EmailSummaryInput {
 
 export interface EmailCardDto {
   provider: EmailProvider;
+  accountEmail: string;
   from: string;
   date: string;
   priority: "düşük" | "orta" | "yüksek";
@@ -57,6 +60,7 @@ export interface EmailCacheEntry extends EmailCardDto {
 
 export type EmailDigestResponse =
   | { type: "status"; message: string }
+  | { type: "progress"; processed: number; total: number }
   | { type: "cards"; cards: EmailCardDto[] }
   | { type: "done" }
   | { type: "error"; message: string };

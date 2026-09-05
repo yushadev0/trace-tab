@@ -32,6 +32,7 @@ export function parseDigest(raw: string, emails: EmailSummaryInput[]): EmailCard
       return {
         id: source?.id ?? String(i),
         provider: source?.provider ?? "gmail",
+        accountEmail: source?.accountEmail ?? "",
         // "from" her zaman kaynağın kendi başlığından gelir; modelin yeniden
         // biçimlendirmesine güvenilmiyor (bazı e-postalarda adresi düşürüyordu).
         from: source?.from ?? "(bilinmiyor)",

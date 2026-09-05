@@ -50,7 +50,11 @@ export async function disconnectGmail(): Promise<void> {
 }
 
 /** Son `maxResults` okunmamış e-postanın konu/gönderen/özet bilgisini getirir. */
-export async function fetchRecentEmails(maxResults = 10, signal?: AbortSignal): Promise<EmailSummaryInput[]> {
+export async function fetchRecentEmails(
+  maxResults: number,
+  accountEmail: string,
+  signal?: AbortSignal,
+): Promise<EmailSummaryInput[]> {
   const token = await getAuthToken(false);
 
   const list = (await gmailFetch(
@@ -76,6 +80,7 @@ export async function fetchRecentEmails(maxResults = 10, signal?: AbortSignal): 
     (d, i) => ({
       id: messages[i].id,
       provider: "gmail" as const,
+      accountEmail,
       subject: headerValue(d.payload?.headers, "Subject") || "(konu yok)",
       from: headerValue(d.payload?.headers, "From") || "(bilinmiyor)",
       date: headerValue(d.payload?.headers, "Date") || "",
