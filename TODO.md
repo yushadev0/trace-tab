@@ -28,5 +28,8 @@
 - [x] Outlook OAuth "Bağlan" butonundaki form-submit yarış durumu ve Azure kurulum sorunları (userAudience, client_secret, cross-origin token redemption) çözüldü — Outlook bağlantısı uçtan uca çalışıyor
 - [x] E-posta kartındaki sağlayıcı ikonunun üzerine gelince artık bağlı hesabın adresi de gösteriliyor (`Gmail — adres@ornek.com`); çoklu hesap desteğine hazır altyapı (`accountEmail` alanı) eklendi
 - [x] E-posta özetleme artık tek seferlik toplu istek yerine e-posta başına işleniyor; bu sayede gerçek bir ilerleme çubuğu (kaç/kaç özetlendi) gösterilebiliyor. Panel henüz kapalıyken (ilk yükleme) bu çubuk chat girişinin altında beliriyor
+- [x] Ayarlar sayfasına "Önbelleği Temizle" butonu eklendi (şema değişince eski kayıtları tek tıkla sıfırlamak için)
+- [x] E-posta kartına tıklayınca ilgili e-posta doğrudan Gmail/Outlook web arayüzünde yeni sekmede açılıyor (Gmail: mesaj ID'siyle deep link, Outlook: Graph API'nin kendi `webLink` alanı)
+- [x] Tüm sayfalarda (newtab + options) scroll bar'lar artık temaya uyumlu (Minecraft'ta köşeli, diğerlerinde yuvarlak, hover'da aksan rengi)
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir

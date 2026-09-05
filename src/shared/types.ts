@@ -41,6 +41,8 @@ export interface EmailSummaryInput {
   from: string;
   date: string;
   snippet: string;
+  /** E-postayı Gmail/Outlook web arayüzünde doğrudan açan bağlantı. */
+  link: string;
 }
 
 export interface EmailCardDto {
@@ -50,6 +52,7 @@ export interface EmailCardDto {
   date: string;
   priority: "düşük" | "orta" | "yüksek";
   summary: string;
+  link: string;
 }
 
 /** Önbellekte tutulan, daha önce özetlenmiş bir e-posta kaydı. */

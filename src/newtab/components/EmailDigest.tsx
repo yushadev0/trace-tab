@@ -45,7 +45,14 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
 
         <div className="email-list">
           {cards.map((card, i) => (
-            <div key={i} className="email-card">
+            <a
+              key={i}
+              className="email-card"
+              href={card.link || undefined}
+              target="_blank"
+              rel="noreferrer noopener"
+              title={`${card.provider === "gmail" ? "Gmail" : "Outlook"}'da aç`}
+            >
               <strong className="email-card__from" title={card.from}>
                 {card.from}
               </strong>
@@ -68,7 +75,7 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
               <div className="email-card__summary">
                 <strong>Özet:</strong> {card.summary}
               </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

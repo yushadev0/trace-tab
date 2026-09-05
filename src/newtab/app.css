@@ -443,13 +443,23 @@ a {
 }
 
 .email-card {
+  display: block;
   padding: 13px 15px;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
   font-size: 13.5px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
   animation: card-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.4s ease;
+}
+
+.email-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-1px);
 }
 
 .email-card:nth-child(1) { animation-delay: 0ms; }

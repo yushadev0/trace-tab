@@ -186,7 +186,7 @@ export async function fetchRecentOutlookEmails(
     $filter: "isRead eq false",
     $top: String(maxResults),
     $orderby: "receivedDateTime desc",
-    $select: "id,subject,from,receivedDateTime,bodyPreview",
+    $select: "id,subject,from,receivedDateTime,bodyPreview,webLink",
   });
 
   const list = (await graphFetch(`me/mailFolders/inbox/messages?${query}`, token, signal)) as {
@@ -196,6 +196,7 @@ export async function fetchRecentOutlookEmails(
       from?: { emailAddress?: { name?: string; address?: string } };
       receivedDateTime?: string;
       bodyPreview?: string;
+      webLink?: string;
     }[];
   };
 
@@ -212,6 +213,7 @@ export async function fetchRecentOutlookEmails(
       from,
       date: m.receivedDateTime || "",
       snippet: m.bodyPreview ?? "",
+      link: m.webLink ?? "",
     };
   });
 }

@@ -85,6 +85,7 @@ export async function fetchRecentEmails(
       from: headerValue(d.payload?.headers, "From") || "(bilinmiyor)",
       date: headerValue(d.payload?.headers, "Date") || "",
       snippet: d.snippet ?? "",
+      link: `https://mail.google.com/mail/u/0/#all/${messages[i].id}`,
     }),
   );
 }
