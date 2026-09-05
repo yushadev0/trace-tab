@@ -1,4 +1,4 @@
-import type { EmailCacheEntry, Point, ThemeId } from "./types";
+import type { EmailCacheEntry, ThemeId } from "./types";
 
 const GEMINI_API_KEY = "geminiApiKey";
 const TAVILY_API_KEY = "tavilyApiKey";
@@ -6,7 +6,6 @@ const THEME_KEY = "theme";
 const GREETING_TITLE_KEY = "greetingTitle";
 const GREETING_SUBTITLE_KEY = "greetingSubtitle";
 const EMAIL_CACHE_KEY = "emailCache";
-const THEME_SWITCHER_POSITION_KEY = "themeSwitcherPosition";
 
 export const DEFAULT_GREETING_TITLE = "Merhaba, Yuşa";
 export const DEFAULT_GREETING_SUBTITLE = "Daddy's Home? Bugün ne yapıyoruz.";
@@ -63,13 +62,4 @@ export async function getEmailCache(): Promise<Record<string, EmailCacheEntry>> 
 
 export async function setEmailCache(cache: Record<string, EmailCacheEntry>): Promise<void> {
   await chrome.storage.local.set({ [EMAIL_CACHE_KEY]: cache });
-}
-
-export async function getThemeSwitcherPosition(): Promise<Point | undefined> {
-  const result = await chrome.storage.local.get(THEME_SWITCHER_POSITION_KEY);
-  return result[THEME_SWITCHER_POSITION_KEY] as Point | undefined;
-}
-
-export async function setThemeSwitcherPosition(position: Point): Promise<void> {
-  await chrome.storage.local.set({ [THEME_SWITCHER_POSITION_KEY]: position });
 }

@@ -1,10 +1,5 @@
 export type ThemeId = "dark" | "light" | "f1" | "minecraft" | "factorio" | "messi";
 
-export interface Point {
-  x: number;
-  y: number;
-}
-
 export const QUICK_ASK_PORT = "quick-ask";
 
 export interface WebSourceDto {
