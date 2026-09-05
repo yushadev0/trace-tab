@@ -1,27 +1,35 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkSlash, faPlug } from "@fortawesome/free-solid-svg-icons";
-import type { GmailConnectionRequest, GmailConnectionResponse } from "../../shared/types";
+import type { EmailConnectionResponse, EmailProvider } from "../../shared/types";
 
-function sendGmailMessage(request: GmailConnectionRequest): Promise<GmailConnectionResponse> {
-  return chrome.runtime.sendMessage(request);
+function sendMessage(
+  provider: EmailProvider,
+  action: "connect" | "disconnect" | "status",
+): Promise<EmailConnectionResponse> {
+  return chrome.runtime.sendMessage({ provider, action });
 }
 
-export default function GmailConnection() {
+interface EmailProviderConnectionProps {
+  provider: EmailProvider;
+  connectLabel: string;
+}
+
+export default function EmailProviderConnection({ provider, connectLabel }: EmailProviderConnectionProps) {
   const [email, setEmail] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    sendGmailMessage({ action: "status" })
+    sendMessage(provider, "status")
       .then((res) => setEmail(res.connected ? res.email : undefined))
       .finally(() => setLoading(false));
-  }, []);
+  }, [provider]);
 
   async function connect() {
     setLoading(true);
     setError("");
-    const res = await sendGmailMessage({ action: "connect" });
+    const res = await sendMessage(provider, "connect");
     if (res.connected) {
       setEmail(res.email);
     } else {
@@ -32,7 +40,7 @@ export default function GmailConnection() {
 
   async function disconnect() {
     setLoading(true);
-    await sendGmailMessage({ action: "disconnect" });
+    await sendMessage(provider, "disconnect");
     setEmail(undefined);
     setLoading(false);
   }
@@ -50,7 +58,7 @@ export default function GmailConnection() {
         </div>
       ) : (
         <button className="btn" onClick={connect} disabled={loading}>
-          <FontAwesomeIcon icon={faPlug} /> {loading ? "Kontrol ediliyor…" : "Gmail'e Bağlan"}
+          <FontAwesomeIcon icon={faPlug} /> {loading ? "Kontrol ediliyor…" : connectLabel}
         </button>
       )}
       {error && <p className="gmail-error">{error}</p>}

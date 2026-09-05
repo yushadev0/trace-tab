@@ -426,6 +426,17 @@ a {
   margin-top: 4px;
 }
 
+.email-card__meta-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.email-card__provider {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
 .email-card__badge {
   font-size: 11px;
   font-weight: 700;

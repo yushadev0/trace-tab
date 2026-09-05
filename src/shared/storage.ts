@@ -6,6 +6,16 @@ const THEME_KEY = "theme";
 const GREETING_TITLE_KEY = "greetingTitle";
 const GREETING_SUBTITLE_KEY = "greetingSubtitle";
 const EMAIL_CACHE_KEY = "emailCache";
+const OUTLOOK_CLIENT_ID_KEY = "outlookClientId";
+const OUTLOOK_ACCOUNT_KEY = "outlookAccount";
+
+export interface OutlookAccount {
+  email: string;
+  accessToken: string;
+  refreshToken?: string;
+  /** Epoch ms cinsinden access token'ın geçerlilik bitişi. */
+  expiresAt: number;
+}
 
 export const DEFAULT_GREETING_TITLE = "Merhaba, Yuşa";
 export const DEFAULT_GREETING_SUBTITLE = "Daddy's Home? Bugün ne yapıyoruz.";
@@ -53,6 +63,28 @@ export async function getGreetingSubtitle(): Promise<string | undefined> {
 
 export async function setGreetingSubtitle(subtitle: string): Promise<void> {
   await chrome.storage.local.set({ [GREETING_SUBTITLE_KEY]: subtitle });
+}
+
+export async function getOutlookClientId(): Promise<string | undefined> {
+  const result = await chrome.storage.local.get(OUTLOOK_CLIENT_ID_KEY);
+  return result[OUTLOOK_CLIENT_ID_KEY] as string | undefined;
+}
+
+export async function setOutlookClientId(clientId: string): Promise<void> {
+  await chrome.storage.local.set({ [OUTLOOK_CLIENT_ID_KEY]: clientId });
+}
+
+export async function getOutlookAccount(): Promise<OutlookAccount | undefined> {
+  const result = await chrome.storage.local.get(OUTLOOK_ACCOUNT_KEY);
+  return result[OUTLOOK_ACCOUNT_KEY] as OutlookAccount | undefined;
+}
+
+export async function setOutlookAccount(account: OutlookAccount): Promise<void> {
+  await chrome.storage.local.set({ [OUTLOOK_ACCOUNT_KEY]: account });
+}
+
+export async function clearOutlookAccount(): Promise<void> {
+  await chrome.storage.local.remove(OUTLOOK_ACCOUNT_KEY);
 }
 
 export async function getEmailCache(): Promise<Record<string, EmailCacheEntry>> {

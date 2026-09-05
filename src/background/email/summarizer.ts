@@ -1,5 +1,4 @@
-import type { EmailCardDto } from "../../shared/types";
-import type { EmailSummaryInput } from "./gmail";
+import type { EmailCardDto, EmailSummaryInput } from "../../shared/types";
 
 export type EmailCard = EmailCardDto & { id: string };
 
@@ -15,7 +14,6 @@ export function buildDigestPrompt(emails: EmailSummaryInput[]): string {
 ${list}
 
 Her e-posta için tam olarak şu alanları içeren bir JSON dizisi üret (dizi uzunluğu ${emails.length} olmalı, sırayı koru):
-- "from": gönderici (kısa, sadece isim/adres)
 - "date": tarih, kısa ve okunabilir bir biçimde (örn. "4 Eyl, 14:32")
 - "priority": sadece "düşük", "orta" veya "yüksek" değerlerinden biri — e-postanın aciliyetine/önemine göre
 - "summary": 1-2 cümlelik Türkçe özet
@@ -30,10 +28,14 @@ export function parseDigest(raw: string, emails: EmailSummaryInput[]): EmailCard
 
     return parsed.map((item, i) => {
       const priority = PRIORITIES.includes(item?.priority) ? (item.priority as EmailCardDto["priority"]) : "orta";
+      const source = emails[i];
       return {
-        id: emails[i]?.id ?? String(i),
-        from: typeof item?.from === "string" && item.from ? item.from : emails[i]?.from ?? "(bilinmiyor)",
-        date: typeof item?.date === "string" && item.date ? item.date : emails[i]?.date ?? "",
+        id: source?.id ?? String(i),
+        provider: source?.provider ?? "gmail",
+        // "from" her zaman kaynağın kendi başlığından gelir; modelin yeniden
+        // biçimlendirmesine güvenilmiyor (bazı e-postalarda adresi düşürüyordu).
+        from: source?.from ?? "(bilinmiyor)",
+        date: typeof item?.date === "string" && item.date ? item.date : source?.date ?? "",
         priority,
         summary: typeof item?.summary === "string" ? item.summary : "",
       };

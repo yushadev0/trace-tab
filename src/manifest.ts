@@ -20,6 +20,7 @@ export default defineManifest({
     "https://api.tavily.com/*",
     "https://gmail.googleapis.com/*",
     "https://graph.microsoft.com/*",
+    "https://login.microsoftonline.com/*",
   ],
   oauth2: {
     client_id: "496477408238-2lp9kq5762lea1f0tju4vgi2lphulhdc.apps.googleusercontent.com",

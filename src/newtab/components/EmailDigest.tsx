@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
-import { EMAIL_DIGEST_PORT, type EmailCardDto, type EmailDigestResponse } from "../../shared/types";
+import { faGoogle, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
+import { EMAIL_DIGEST_PORT, type EmailCardDto, type EmailDigestResponse, type EmailProvider } from "../../shared/types";
+
+const PROVIDER_ICON = { gmail: faGoogle, outlook: faMicrosoft } as const;
+const PROVIDER_LABEL: Record<EmailProvider, string> = { gmail: "Gmail", outlook: "Outlook" };
 
 export default function EmailDigest({ hidden }: { hidden: boolean }) {
   const [cards, setCards] = useState<EmailCardDto[]>([]);
@@ -78,7 +82,14 @@ export default function EmailDigest({ hidden }: { hidden: boolean }) {
               </strong>
               <div className="email-card__meta">
                 <span className={`email-card__badge email-card__badge--${card.priority}`}>{card.priority}</span>
-                <span className="email-card__date">{card.date}</span>
+                <span className="email-card__meta-right">
+                  <FontAwesomeIcon
+                    icon={PROVIDER_ICON[card.provider]}
+                    className="email-card__provider"
+                    title={PROVIDER_LABEL[card.provider]}
+                  />
+                  <span className="email-card__date">{card.date}</span>
+                </span>
               </div>
               <div className="email-card__summary">
                 <strong>Özet:</strong> {card.summary}

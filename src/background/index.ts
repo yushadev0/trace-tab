@@ -1,5 +1,6 @@
 import { createGeminiProvider } from "./ai/geminiProvider";
 import { connectGmail, disconnectGmail, fetchRecentEmails, getConnectedEmail } from "./email/gmail";
+import { connectOutlook, disconnectOutlook, fetchRecentOutlookEmails, getConnectedOutlookEmail } from "./email/outlook";
 import { buildDigestPrompt, parseDigest, type EmailCard } from "./email/summarizer";
 import { buildGroundedPrompt, searchWeb } from "./search/tavilySearch";
 import { getEmailCache, getGeminiApiKey, getTavilyApiKey, setEmailCache } from "../shared/storage";
@@ -8,37 +9,45 @@ import {
   QUICK_ASK_PORT,
   type ChatMessageDto,
   type EmailCacheEntry,
+  type EmailConnectionRequest,
+  type EmailConnectionResponse,
   type EmailDigestResponse,
-  type GmailConnectionRequest,
-  type GmailConnectionResponse,
+  type EmailSummaryInput,
   type QuickAskRequest,
   type QuickAskResponse,
   type WebSourceDto,
 } from "../shared/types";
 
 const EMAIL_CACHE_LIMIT = 300;
+const EMAIL_DIGEST_LIMIT = 10;
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("[AI New Tab] service worker installed");
 });
 
-chrome.runtime.onMessage.addListener((message: GmailConnectionRequest, _sender, sendResponse) => {
-  handleGmailConnection(message).then(sendResponse);
+chrome.runtime.onMessage.addListener((message: EmailConnectionRequest, _sender, sendResponse) => {
+  handleEmailConnection(message).then(sendResponse);
   return true;
 });
 
-async function handleGmailConnection(message: GmailConnectionRequest): Promise<GmailConnectionResponse> {
+async function handleEmailConnection(message: EmailConnectionRequest): Promise<EmailConnectionResponse> {
   try {
-    if (message.action === "connect") {
-      const email = await connectGmail();
-      return { connected: true, email };
+    if (message.provider === "gmail") {
+      if (message.action === "connect") return { connected: true, email: await connectGmail() };
+      if (message.action === "disconnect") {
+        await disconnectGmail();
+        return { connected: false };
+      }
+      const email = await getConnectedEmail();
+      return email ? { connected: true, email } : { connected: false };
     }
+
+    if (message.action === "connect") return { connected: true, email: await connectOutlook() };
     if (message.action === "disconnect") {
-      await disconnectGmail();
+      await disconnectOutlook();
       return { connected: false };
     }
-    // status: token varsa (etkileşimsiz) bağlıdır.
-    const email = await getConnectedEmail();
+    const email = await getConnectedOutlookEmail();
     return email ? { connected: true, email } : { connected: false };
   } catch (err) {
     return { connected: false, error: err instanceof Error ? err.message : String(err) };
@@ -107,6 +116,10 @@ function pruneEmailCache(cache: Record<string, EmailCacheEntry>): Record<string,
   return Object.fromEntries(entries.slice(0, EMAIL_CACHE_LIMIT));
 }
 
+function cacheKey(e: { provider: string; id: string }): string {
+  return `${e.provider}:${e.id}`;
+}
+
 function handleEmailDigest(port: chrome.runtime.Port) {
   const controller = new AbortController();
   port.onDisconnect.addListener(() => controller.abort());
@@ -127,8 +140,20 @@ function handleEmailDigest(port: chrome.runtime.Port) {
         return;
       }
 
+      const [gmailEmail, outlookEmail] = await Promise.all([getConnectedEmail(), getConnectedOutlookEmail()]);
+      if (!gmailEmail && !outlookEmail) {
+        send({ type: "error", message: "Hiçbir e-posta hesabı bağlı değil. Ayarlar sayfasından bağlanın." });
+        return;
+      }
+
       send({ type: "status", message: "E-postalar getiriliyor…" });
-      const emails = await fetchRecentEmails(10, controller.signal);
+      const fetched: EmailSummaryInput[] = [];
+      if (gmailEmail) fetched.push(...(await fetchRecentEmails(EMAIL_DIGEST_LIMIT, controller.signal)));
+      if (outlookEmail) fetched.push(...(await fetchRecentOutlookEmails(EMAIL_DIGEST_LIMIT, controller.signal)));
+
+      const emails = fetched
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        .slice(0, EMAIL_DIGEST_LIMIT);
 
       if (emails.length === 0) {
         send({ type: "cards", cards: [] });
@@ -138,9 +163,9 @@ function handleEmailDigest(port: chrome.runtime.Port) {
 
       const cache = await getEmailCache();
       const cachedCards: EmailCard[] = [];
-      const uncached: typeof emails = [];
+      const uncached: EmailSummaryInput[] = [];
       for (const email of emails) {
-        const hit = cache[email.id];
+        const hit = cache[cacheKey(email)];
         if (hit) cachedCards.push(hit);
         else uncached.push(email);
       }
@@ -156,13 +181,13 @@ function handleEmailDigest(port: chrome.runtime.Port) {
         const now = Date.now();
         const updatedCache = { ...cache };
         for (const card of newCards) {
-          updatedCache[card.id] = { ...card, cachedAt: now };
+          updatedCache[cacheKey(card)] = { ...card, cachedAt: now };
         }
         await setEmailCache(pruneEmailCache(updatedCache));
       }
 
-      const byId = new Map([...cachedCards, ...newCards].map((c) => [c.id, c]));
-      const cards = emails.map((e) => byId.get(e.id)).filter((c): c is EmailCard => Boolean(c));
+      const byKey = new Map([...cachedCards, ...newCards].map((c) => [cacheKey(c), c]));
+      const cards = emails.map((e) => byKey.get(cacheKey(e))).filter((c): c is EmailCard => Boolean(c));
 
       send({ type: "cards", cards });
       send({ type: "done" });

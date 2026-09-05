@@ -29,7 +29,20 @@ export type QuickAskResponse =
 
 export const EMAIL_DIGEST_PORT = "email-digest";
 
+export type EmailProvider = "gmail" | "outlook";
+
+/** Bir sağlayıcıdan (Gmail/Outlook) getirilen ham e-posta bilgisi, özetlemeden önce. */
+export interface EmailSummaryInput {
+  id: string;
+  provider: EmailProvider;
+  subject: string;
+  from: string;
+  date: string;
+  snippet: string;
+}
+
 export interface EmailCardDto {
+  provider: EmailProvider;
   from: string;
   date: string;
   priority: "düşük" | "orta" | "yüksek";
@@ -48,12 +61,12 @@ export type EmailDigestResponse =
   | { type: "done" }
   | { type: "error"; message: string };
 
-export type GmailConnectionRequest =
-  | { action: "connect" }
-  | { action: "disconnect" }
-  | { action: "status" };
+export interface EmailConnectionRequest {
+  provider: EmailProvider;
+  action: "connect" | "disconnect" | "status";
+}
 
-export interface GmailConnectionResponse {
+export interface EmailConnectionResponse {
   connected: boolean;
   email?: string;
   error?: string;

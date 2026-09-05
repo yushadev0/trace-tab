@@ -1,10 +1,4 @@
-export interface EmailSummaryInput {
-  id: string;
-  subject: string;
-  from: string;
-  date: string;
-  snippet: string;
-}
+import type { EmailSummaryInput } from "../../shared/types";
 
 async function getAuthToken(interactive: boolean): Promise<string> {
   const result = await chrome.identity.getAuthToken({ interactive });
@@ -81,6 +75,7 @@ export async function fetchRecentEmails(maxResults = 10, signal?: AbortSignal): 
   return (details as { payload?: { headers?: { name?: string; value?: string }[] }; snippet?: string }[]).map(
     (d, i) => ({
       id: messages[i].id,
+      provider: "gmail" as const,
       subject: headerValue(d.payload?.headers, "Subject") || "(konu yok)",
       from: headerValue(d.payload?.headers, "From") || "(bilinmiyor)",
       date: headerValue(d.payload?.headers, "Date") || "",

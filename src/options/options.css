@@ -63,7 +63,8 @@ body {
   margin-top: 16px;
 }
 
-.field label {
+.field label,
+.field .field-title {
   display: block;
   margin-bottom: 6px;
   font-size: 13px;

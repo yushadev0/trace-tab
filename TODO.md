@@ -20,7 +20,10 @@
 - [x] Messi/Futbol teması: stadyum çim şeritleri, orta saha çizgisi motifi, Arjantin mavisi + altın, Bebas Neue/Barlow fontları
 - [x] Yüzen sürüklenebilir tema anahtarı newtab'dan kaldırıldı, yerine Ayarlar sayfasında tema kartları ızgarası geldi (her kart kendi temasını canlı önizliyor)
 - [x] Tema modülü (`theme.css`, `ThemeContext`, `themes.ts`) `src/shared/theme/`'e taşındı; hem newtab hem options aynı temaları kullanıyor
-- [x] Ayarlar sayfası tamamen yeniden tasarlandı: temalı panel/inputlar, bölümlere ayrılmış (Görünüm/Yapay Zeka/Gmail), ikonlu butonlar
+- [x] Ayarlar sayfası tamamen yeniden tasarlandı: temalı panel/inputlar, bölümlere ayrılmış (Görünüm/Yapay Zeka/E-posta bağlantıları), ikonlu butonlar
 - [x] Gemini/Tavily API key alanlarına göster/gizle (göz ikonu) butonu eklendi
+- [x] Outlook bağlantısı eklendi (Microsoft Graph, PKCE OAuth ile `chrome.identity.launchWebAuthFlow`); kullanıcı kendi Azure App Registration'ının Client ID'sini Ayarlar'a giriyor, yönlendirme URI'si sayfada kopyalanabilir olarak gösteriliyor
+- [x] E-posta kartlarında sağlayıcı ikonu (Gmail/Outlook) gösteriliyor; her iki hesap da bağlıysa özetler tarihe göre birleştirilip en yeni 10 tanesi gösteriliyor
+- [x] "Gönderici" alanı artık her zaman ham e-posta başlığından geliyor (Gemini'nin yeniden biçimlendirmesine güvenilmiyor) — bazı kartlarda adres eksik kalma sorunu giderildi
 - [ ] Genel responsive/dar ekran davranışı
 - [ ] Web'de ara (grounded) kaynaklarının çok turlu sohbette geçmişe eklenip eklenmeyeceğini gözden geçir
