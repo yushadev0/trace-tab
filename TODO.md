@@ -38,8 +38,11 @@
 
 ## Chrome Web Store yayın hazırlığı
 
-- [x] Gizlilik politikası taslağı yazıldı (`docs/privacy-policy.md`) — tarih/iletişim alanları doldurulup kullanıcının kendi sitesinde yayınlanmayı bekliyor
-- [x] Uzantı ikonları: `assets/icon.svg` master (indigo kare + 4 köşeli AI kıvılcımı, düz/minimal), `npm run icons` (sharp) ile `public/icons/icon-{16,32,48,128}.png` üretiliyor; `manifest.ts`'e `icons` + `action.default_icon` eklendi. 128'lik dosya mağaza ikonu olarak da kullanılabilir; promosyon görselleri hâlâ eksik (aşağıdaki mağaza listesi maddesi)
-- [ ] Google OAuth consent screen'i "sensitive scope" doğrulamasına gönder: gizlilik politikası linki, marka bilgileri, kısa demo video, Search Console alan adı doğrulaması (CASA gerekmiyor — `gmail.readonly` restricted değil sensitive kapsam)
-- [ ] Mağazaya yayınlanınca uzantı ID'si değişecek — Azure'daki Outlook uygulamasının yönlendirme URI'sini yeni ID'ye göre bir kereliğine güncelle
-- [ ] Mağaza listesi materyalleri: ekran görüntüleri, kısa/detaylı açıklama, kategori, promosyon görseli
+- [x] Proje "Trace Tab" olarak adlandırıldı; `github.com/yushadev0/trace-tab` reposuna push'landı
+- [x] Gizlilik politikası 3 dilde (TR/EN/DE) yazıldı ve GitHub Pages'de yayında: `https://yushadev0.github.io/trace-tab/` (ana sayfa) + `/privacy-{tr,en,de}.html`. Kaynak: `docs/`
+- [x] Uzantı ikonları: `assets/icon.svg` master = V3 "Kıvılcım" markı (beyaz ışınsal patlama + indigo `#6366F1` levha + `#4338CA` +1,+1 gölge); `npm run icons` (sharp) ile `public/icons/icon-{16,32,48,128}.png` üretiliyor. 128'lik mağaza ikonu olarak da kullanılır; promosyon görselleri hâlâ eksik
+- [x] **Yayın stratejisi: A yolu** — `gmail.readonly` restricted scope; full OAuth verification + yıllık CASA güvenlik denetimi maliyetli. Bunun yerine: OAuth uygulaması "Testing" modunda kalacak (≤100 test kullanıcısı, token 7 günde bir expire), uzantı mağazaya **Unlisted** yüklenecek
+- [ ] **Uzantı ID'sini sabitle:** `manifest.ts`'e `key` alanı ekle (yerel dev ID == yayınlanan ID olsun; Google OAuth client extension ID'ye bağlı). Sonra Google Cloud Console'daki OAuth client'ın "Item ID"si + Azure redirect URI bu ID'ye göre ayarlanacak
+- [ ] Google Cloud Console → OAuth consent screen: uygulama adı "Trace Tab", logo, destek e-postası, ana sayfa `https://yushadev0.github.io/trace-tab/`, gizlilik politikası `https://yushadev0.github.io/trace-tab/privacy-en.html`; "Testing" modunda bırak, test kullanıcılarını ekle (yayına gönderme yok)
+- [ ] Chrome Web Store Developer Dashboard: $5 kayıt, zip yükle, görünürlük = **Unlisted**, listeleme metinleri (TR/EN/DE), kategori, ekran görüntüleri
+- [ ] Yayın sonrası: kesin uzantı ID'siyle Azure (Outlook) redirect URI ve GCP OAuth client "Item ID" doğrula/güncelle
