@@ -8,14 +8,19 @@ const GREETING_TITLE_KEY = "greetingTitle";
 const GREETING_SUBTITLE_KEY = "greetingSubtitle";
 const EMAIL_CACHE_KEY = "emailCache";
 const OUTLOOK_ACCOUNT_KEY = "outlookAccount";
+const GOOGLE_ACCOUNT_KEY = "googleAccount";
 
-export interface OutlookAccount {
+/** OAuth 2.0 (auth code + PKCE) ile bağlanmış bir e-posta hesabının token durumu. */
+export interface OAuthAccount {
   email: string;
   accessToken: string;
   refreshToken?: string;
   /** Epoch ms cinsinden access token'ın geçerlilik bitişi. */
   expiresAt: number;
 }
+
+/** @deprecated `OAuthAccount` kullanın; geriye dönük uyumluluk için bırakıldı. */
+export type OutlookAccount = OAuthAccount;
 
 export async function getGeminiApiKey(): Promise<string | undefined> {
   const result = await chrome.storage.local.get(GEMINI_API_KEY);
@@ -71,17 +76,30 @@ export async function setGreetingSubtitle(subtitle: string): Promise<void> {
   await chrome.storage.local.set({ [GREETING_SUBTITLE_KEY]: subtitle });
 }
 
-export async function getOutlookAccount(): Promise<OutlookAccount | undefined> {
+export async function getOutlookAccount(): Promise<OAuthAccount | undefined> {
   const result = await chrome.storage.local.get(OUTLOOK_ACCOUNT_KEY);
-  return result[OUTLOOK_ACCOUNT_KEY] as OutlookAccount | undefined;
+  return result[OUTLOOK_ACCOUNT_KEY] as OAuthAccount | undefined;
 }
 
-export async function setOutlookAccount(account: OutlookAccount): Promise<void> {
+export async function setOutlookAccount(account: OAuthAccount): Promise<void> {
   await chrome.storage.local.set({ [OUTLOOK_ACCOUNT_KEY]: account });
 }
 
 export async function clearOutlookAccount(): Promise<void> {
   await chrome.storage.local.remove(OUTLOOK_ACCOUNT_KEY);
+}
+
+export async function getGoogleAccount(): Promise<OAuthAccount | undefined> {
+  const result = await chrome.storage.local.get(GOOGLE_ACCOUNT_KEY);
+  return result[GOOGLE_ACCOUNT_KEY] as OAuthAccount | undefined;
+}
+
+export async function setGoogleAccount(account: OAuthAccount): Promise<void> {
+  await chrome.storage.local.set({ [GOOGLE_ACCOUNT_KEY]: account });
+}
+
+export async function clearGoogleAccount(): Promise<void> {
+  await chrome.storage.local.remove(GOOGLE_ACCOUNT_KEY);
 }
 
 export async function getEmailCache(): Promise<Record<string, EmailCacheEntry>> {

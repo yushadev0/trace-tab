@@ -1,5 +1,6 @@
 import { getOutlookAccount, setOutlookAccount, clearOutlookAccount } from "../../shared/storage";
 import type { EmailSummaryInput } from "../../shared/types";
+import { randomUrlToken, sha256Base64Url } from "./pkce";
 
 const AUTHORITY = "https://login.microsoftonline.com/common/oauth2/v2.0";
 const SCOPES = "offline_access Mail.Read User.Read";
@@ -7,24 +8,6 @@ const SCOPES = "offline_access Mail.Read User.Read";
 const OUTLOOK_CLIENT_ID = "3ac88b95-c611-4ce6-9f54-9005834e70c7";
 /** Token'ı süresi dolmadan bir dakika önce yenilenmiş say. */
 const EXPIRY_BUFFER_MS = 60_000;
-
-function randomVerifier(): string {
-  const bytes = new Uint8Array(32);
-  crypto.getRandomValues(bytes);
-  return base64UrlEncode(bytes);
-}
-
-function base64UrlEncode(bytes: Uint8Array): string {
-  let binary = "";
-  for (const b of bytes) binary += String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-async function sha256Base64Url(input: string): Promise<string> {
-  const data = new TextEncoder().encode(input);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return base64UrlEncode(new Uint8Array(digest));
-}
 
 interface TokenResponse {
   access_token: string;
@@ -49,9 +32,9 @@ async function exchangeToken(params: URLSearchParams): Promise<TokenResponse> {
 
 async function authorizeInteractive(clientId: string): Promise<TokenResponse> {
   const redirectUri = chrome.identity.getRedirectURL();
-  const verifier = randomVerifier();
+  const verifier = randomUrlToken();
   const challenge = await sha256Base64Url(verifier);
-  const state = randomVerifier();
+  const state = randomUrlToken();
 
   const authUrl = new URL(`${AUTHORITY}/authorize`);
   authUrl.searchParams.set("client_id", clientId);

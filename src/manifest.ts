@@ -35,11 +35,11 @@ export default defineManifest({
     "https://generativelanguage.googleapis.com/*",
     "https://api.tavily.com/*",
     "https://gmail.googleapis.com/*",
+    "https://oauth2.googleapis.com/*",
     "https://graph.microsoft.com/*",
     "https://login.microsoftonline.com/*",
   ],
-  oauth2: {
-    client_id: "496477408238-2lp9kq5762lea1f0tju4vgi2lphulhdc.apps.googleusercontent.com",
-    scopes: ["https://www.googleapis.com/auth/gmail.readonly"],
-  },
+  // Gmail girişi artık `chrome.identity.launchWebAuthFlow` + PKCE ile yapılıyor
+  // (bkz. src/background/email/gmail.ts) — Chrome'a özgü `oauth2` bloğu ve
+  // `getAuthToken` kaldırıldı; akış tüm Chromium tarayıcılarda çalışıyor.
 });
