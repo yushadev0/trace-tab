@@ -6,6 +6,10 @@ export default defineManifest({
   name: "Trace Tab",
   version: pkg.version,
   description: "Yapay zeka destekli yeni sekme: hızlı sorular, web'de arama ve e-posta özetleri.",
+  // Chrome Web Store'daki öğenin ortak anahtarı — paketlenmemiş yerel yükleme de
+  // aynı uzantı ID'sini (einifdamdgidjbeiodcegakdjfkckmeh) alsın diye. Böylece
+  // Gmail OAuth client'ı tek bir ID'ye bağlanabiliyor.
+  key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2n4eayxrqZG+W7oS1XybRQwiEihAZS2A+nvwdGxWbS2mCJ9UZuG1F8TfEy61jEwAa9Obx2x1b5RLY1u1j2TwXwagZOYqD/P0WstyqRZBbEAKHX3dCBigOJUNnjRzWAPqqIwsMS/5dSDFMrbl6A7LNDFtCAQwvKZAS3VWKGOO5QeNxM1nxS+9J17Kbunzf6LErTWMj/Le8i8VgWRMt1aXYIByxcYFPzvARk/2I579PaOgO6ZOu8qsfEsaIuhEiD6VKIOWKMPxYIwLKUa4aJWU5RpmxLni8o9HI7b9YBLYdz+xJfSTyh8h1ulDDgmzQ0612ZeSRM5Fn0bpwDoVEkQ83wIDAQAB",
   icons: {
     16: "icons/icon-16.png",
     32: "icons/icon-32.png",
