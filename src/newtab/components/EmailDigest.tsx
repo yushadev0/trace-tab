@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { faGoogle, faMicrosoft } from "@fortawesome/free-brands-svg-icons";
@@ -16,6 +17,7 @@ interface EmailDigestProps {
 }
 
 export default function EmailDigest({ hidden, cards, statusMessage, status, error, refresh }: EmailDigestProps) {
+  const { t } = useTranslation();
   const open = !hidden && (cards.length > 0 || status === "error");
 
   return (
@@ -23,13 +25,13 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
       <div className="inbox-pane__inner">
         <div className="flag-strip" aria-hidden="true" />
         <div className="inbox-pane__header">
-          <h2>📧 Gelen Kutusu</h2>
+          <h2>{t("inbox.title")}</h2>
           <button
             className="icon-btn"
             onClick={refresh}
             disabled={status === "running"}
-            title="Yenile"
-            aria-label="Yenile"
+            title={t("common.refresh")}
+            aria-label={t("common.refresh")}
           >
             <FontAwesomeIcon icon={faArrowsRotate} spin={status === "running"} />
           </button>
@@ -39,7 +41,10 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
 
         {error && (
           <p className="error-text">
-            {error} <a href="#" onClick={() => chrome.runtime.openOptionsPage()}>Ayarları aç</a>
+            {error}{" "}
+            <a href="#" onClick={() => chrome.runtime.openOptionsPage()}>
+              {t("common.openSettings")}
+            </a>
           </p>
         )}
 
@@ -51,13 +56,15 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
               href={card.link || undefined}
               target="_blank"
               rel="noreferrer noopener"
-              title={`${card.provider === "gmail" ? "Gmail" : "Outlook"}'da aç`}
+              title={t("inbox.openIn", { provider: PROVIDER_LABEL[card.provider] })}
             >
               <strong className="email-card__from" title={card.from}>
                 {card.from}
               </strong>
               <div className="email-card__meta">
-                <span className={`email-card__badge email-card__badge--${card.priority}`}>{card.priority}</span>
+                <span className={`email-card__badge email-card__badge--${card.priority}`}>
+                  {t(`inbox.priority.${card.priority}` as const)}
+                </span>
                 <span className="email-card__meta-right">
                   <span
                     className="email-card__provider"
@@ -73,7 +80,7 @@ export default function EmailDigest({ hidden, cards, statusMessage, status, erro
                 </span>
               </div>
               <div className="email-card__summary">
-                <strong>Özet:</strong> {card.summary}
+                <strong>{t("inbox.summaryLabel")}</strong> {card.summary}
               </div>
             </a>
           ))}

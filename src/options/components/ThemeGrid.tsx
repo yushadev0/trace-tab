@@ -1,33 +1,35 @@
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { THEMES } from "../../shared/theme/themes";
+import { THEME_IDS } from "../../shared/theme/themes";
 import { THEME_ICONS } from "../../shared/theme/themeIcons";
 import { useTheme } from "../../shared/theme/ThemeContext";
 
 export default function ThemeGrid() {
+  const { t } = useTranslation();
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="theme-grid" role="radiogroup" aria-label="Tema seç">
-      {THEMES.map((t) => (
+    <div className="theme-grid" role="radiogroup" aria-label={t("theme.choose")}>
+      {THEME_IDS.map((id) => (
         <button
-          key={t.id}
+          key={id}
           type="button"
           role="radio"
-          aria-checked={theme === t.id}
-          data-theme={t.id}
-          className={`theme-card${theme === t.id ? " theme-card--active" : ""}`}
-          onClick={() => setTheme(t.id)}
+          aria-checked={theme === id}
+          data-theme={id}
+          className={`theme-card${theme === id ? " theme-card--active" : ""}`}
+          onClick={() => setTheme(id)}
         >
-          {theme === t.id && (
+          {theme === id && (
             <span className="theme-card__check" aria-hidden="true">
               <FontAwesomeIcon icon={faCheck} />
             </span>
           )}
           <span className="theme-card__swatch">
-            <FontAwesomeIcon icon={THEME_ICONS[t.id]} />
+            <FontAwesomeIcon icon={THEME_ICONS[id]} />
           </span>
-          <span className="theme-card__label">{t.label}</span>
+          <span className="theme-card__label">{t(`theme.${id}` as const)}</span>
         </button>
       ))}
     </div>

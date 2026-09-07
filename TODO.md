@@ -39,7 +39,7 @@
 ## Chrome Web Store yayın hazırlığı
 
 - [x] Gizlilik politikası taslağı yazıldı (`docs/privacy-policy.md`) — tarih/iletişim alanları doldurulup kullanıcının kendi sitesinde yayınlanmayı bekliyor
-- [ ] Uzantı ikonları eksik: `manifest.ts`'te `icons` alanı yok, projede hiç ikon dosyası (16/48/128 + mağaza ikonu) yok — mağaza gönderimi bunsuz reddedilir
+- [x] Uzantı ikonları: `assets/icon.svg` master (indigo kare + 4 köşeli AI kıvılcımı, düz/minimal), `npm run icons` (sharp) ile `public/icons/icon-{16,32,48,128}.png` üretiliyor; `manifest.ts`'e `icons` + `action.default_icon` eklendi. 128'lik dosya mağaza ikonu olarak da kullanılabilir; promosyon görselleri hâlâ eksik (aşağıdaki mağaza listesi maddesi)
 - [ ] Google OAuth consent screen'i "sensitive scope" doğrulamasına gönder: gizlilik politikası linki, marka bilgileri, kısa demo video, Search Console alan adı doğrulaması (CASA gerekmiyor — `gmail.readonly` restricted değil sensitive kapsam)
 - [ ] Mağazaya yayınlanınca uzantı ID'si değişecek — Azure'daki Outlook uygulamasının yönlendirme URI'sini yeni ID'ye göre bir kereliğine güncelle
 - [ ] Mağaza listesi materyalleri: ekran görüntüleri, kısa/detaylı açıklama, kategori, promosyon görseli

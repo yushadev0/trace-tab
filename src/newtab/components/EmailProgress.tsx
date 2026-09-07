@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { EmailProgress as EmailProgressValue } from "../hooks/useEmailDigest";
 
 interface EmailProgressProps {
@@ -7,12 +8,13 @@ interface EmailProgressProps {
 }
 
 export default function EmailProgress({ status, statusMessage, progress }: EmailProgressProps) {
+  const { t } = useTranslation();
   const visible = status === "running";
   const percent = progress && progress.total > 0 ? Math.round((progress.processed / progress.total) * 100) : null;
 
   const label = progress
-    ? `E-postalar özetleniyor… (${progress.processed}/${progress.total})`
-    : statusMessage || "E-postalar kontrol ediliyor…";
+    ? t("inbox.progress.summarizing", { processed: progress.processed, total: progress.total })
+    : statusMessage || t("inbox.progress.checking");
 
   return (
     <div className={`email-progress${visible ? " email-progress--visible" : ""}`} aria-hidden={!visible}>

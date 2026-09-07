@@ -4,9 +4,11 @@ import { connectOutlook, disconnectOutlook, fetchRecentOutlookEmails, getConnect
 import { buildDigestPrompt, parseDigest, type EmailCard } from "./email/summarizer";
 import { buildGroundedPrompt, searchWeb } from "./search/tavilySearch";
 import { getEmailCache, getGeminiApiKey, getTavilyApiKey, setEmailCache } from "../shared/storage";
+import { getBackgroundI18n } from "../shared/i18n/background";
 import {
   EMAIL_DIGEST_PORT,
   QUICK_ASK_PORT,
+  type AppLanguage,
   type ChatMessageDto,
   type EmailCacheEntry,
   type EmailConnectionRequest,
@@ -76,9 +78,11 @@ function handleQuickAsk(port: chrome.runtime.Port) {
     };
 
     try {
+      const { lang, t } = await getBackgroundI18n();
+
       const apiKey = await getGeminiApiKey();
       if (!apiKey) {
-        send({ type: "error", message: "Gemini API key ayarlanmamış. Ayarlar sayfasından ekleyin." });
+        send({ type: "error", message: t("errors.geminiKeyMissing") });
         return;
       }
 
@@ -88,20 +92,25 @@ function handleQuickAsk(port: chrome.runtime.Port) {
       if (message.grounded) {
         const tavilyKey = await getTavilyApiKey();
         if (!tavilyKey) {
-          send({ type: "error", message: "Tavily API key ayarlanmamış. Ayarlar sayfasından ekleyin." });
+          send({ type: "error", message: t("errors.tavilyKeyMissing") });
           return;
         }
 
         const results = await searchWeb(message.prompt, tavilyKey, 5, controller.signal);
         sources = results.map((r) => ({ title: r.title, uri: r.url }));
-        finalPrompt = buildGroundedPrompt(message.prompt, results);
+        finalPrompt = buildGroundedPrompt(message.prompt, results, lang);
       }
 
       const history = message.history ?? [];
       const contents: ChatMessageDto[] = [...history, { role: "user", text: finalPrompt }];
 
       const provider = createGeminiProvider(apiKey);
-      await provider.streamGenerateText(contents, (text) => send({ type: "chunk", text }), controller.signal);
+      await provider.streamGenerateText(
+        contents,
+        (text) => send({ type: "chunk", text }),
+        controller.signal,
+        t("ai.chatSystem"),
+      );
       send({ type: "done", sources });
     } catch (err) {
       send({ type: "error", message: err instanceof Error ? err.message : String(err) });
@@ -116,8 +125,28 @@ function pruneEmailCache(cache: Record<string, EmailCacheEntry>): Record<string,
   return Object.fromEntries(entries.slice(0, EMAIL_CACHE_LIMIT));
 }
 
-function cacheKey(e: { provider: string; id: string }): string {
-  return `${e.provider}:${e.id}`;
+function cacheKey(e: { provider: string; id: string }, lang: AppLanguage): string {
+  return `${e.provider}:${e.id}:${lang}`;
+}
+
+const LEGACY_PRIORITY: Record<string, EmailCard["priority"]> = {
+  düşük: "low",
+  orta: "medium",
+  yüksek: "high",
+};
+
+/**
+ * Eski önbellek kayıtlarını yeni şemaya taşır: Gmail linkini #inbox'a çevirir ve
+ * Türkçe öncelik değerlerini (düşük/orta/yüksek) sabit enum'a (low/medium/high) map'ler.
+ */
+function normalizeCard(card: EmailCard): EmailCard {
+  let next = card;
+  if (next.provider === "gmail" && next.link.includes("mail.google.com/mail/") && next.link.includes("#all/")) {
+    next = { ...next, link: next.link.replace("#all/", "#inbox/") };
+  }
+  const mapped = LEGACY_PRIORITY[next.priority as string];
+  if (mapped) next = { ...next, priority: mapped };
+  return next;
 }
 
 function handleEmailDigest(port: chrome.runtime.Port) {
@@ -134,19 +163,21 @@ function handleEmailDigest(port: chrome.runtime.Port) {
     };
 
     try {
+      const { lang, t } = await getBackgroundI18n();
+
       const apiKey = await getGeminiApiKey();
       if (!apiKey) {
-        send({ type: "error", message: "Gemini API key ayarlanmamış. Ayarlar sayfasından ekleyin." });
+        send({ type: "error", message: t("errors.geminiKeyMissing") });
         return;
       }
 
       const [gmailEmail, outlookEmail] = await Promise.all([getConnectedEmail(), getConnectedOutlookEmail()]);
       if (!gmailEmail && !outlookEmail) {
-        send({ type: "error", message: "Hiçbir e-posta hesabı bağlı değil. Ayarlar sayfasından bağlanın." });
+        send({ type: "error", message: t("errors.noEmailAccount") });
         return;
       }
 
-      send({ type: "status", message: "E-postalar getiriliyor…" });
+      send({ type: "status", message: t("digest.fetching") });
       const fetched: EmailSummaryInput[] = [];
       if (gmailEmail) fetched.push(...(await fetchRecentEmails(EMAIL_DIGEST_LIMIT, gmailEmail, controller.signal)));
       if (outlookEmail)
@@ -166,26 +197,26 @@ function handleEmailDigest(port: chrome.runtime.Port) {
       const cachedCards: EmailCard[] = [];
       const uncached: EmailSummaryInput[] = [];
       for (const email of emails) {
-        const hit = cache[cacheKey(email)];
+        const hit = cache[cacheKey(email, lang)];
         if (hit) cachedCards.push(hit);
         else uncached.push(email);
       }
 
       const newCards: EmailCard[] = [];
       if (uncached.length > 0) {
-        send({ type: "status", message: `Özetleniyor… (${uncached.length} yeni e-posta)` });
+        send({ type: "status", message: t("digest.summarizingCount", { count: uncached.length }) });
         const provider = createGeminiProvider(apiKey);
         const updatedCache = { ...cache };
 
         for (let i = 0; i < uncached.length; i++) {
           send({ type: "progress", processed: i, total: uncached.length });
           const email = uncached[i];
-          const prompt = buildDigestPrompt([email]);
+          const prompt = buildDigestPrompt([email], lang);
           const raw = await provider.generateJson(prompt, controller.signal);
           const [card] = parseDigest(raw, [email]);
           if (card) {
             newCards.push(card);
-            updatedCache[cacheKey(card)] = { ...card, cachedAt: Date.now() };
+            updatedCache[cacheKey(card, lang)] = { ...card, cachedAt: Date.now() };
           }
         }
         send({ type: "progress", processed: uncached.length, total: uncached.length });
@@ -193,8 +224,11 @@ function handleEmailDigest(port: chrome.runtime.Port) {
         await setEmailCache(pruneEmailCache(updatedCache));
       }
 
-      const byKey = new Map([...cachedCards, ...newCards].map((c) => [cacheKey(c), c]));
-      const cards = emails.map((e) => byKey.get(cacheKey(e))).filter((c): c is EmailCard => Boolean(c));
+      const byKey = new Map([...cachedCards, ...newCards].map((c) => [cacheKey(c, lang), c]));
+      const cards = emails
+        .map((e) => byKey.get(cacheKey(e, lang)))
+        .filter((c): c is EmailCard => Boolean(c))
+        .map(normalizeCard);
 
       send({ type: "cards", cards });
       send({ type: "done" });

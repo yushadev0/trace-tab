@@ -1,8 +1,9 @@
-import type { EmailCacheEntry, ThemeId } from "./types";
+import type { AppLanguage, EmailCacheEntry, ThemeId } from "./types";
 
 const GEMINI_API_KEY = "geminiApiKey";
 const TAVILY_API_KEY = "tavilyApiKey";
 const THEME_KEY = "theme";
+const LANGUAGE_KEY = "language";
 const GREETING_TITLE_KEY = "greetingTitle";
 const GREETING_SUBTITLE_KEY = "greetingSubtitle";
 const EMAIL_CACHE_KEY = "emailCache";
@@ -15,9 +16,6 @@ export interface OutlookAccount {
   /** Epoch ms cinsinden access token'ın geçerlilik bitişi. */
   expiresAt: number;
 }
-
-export const DEFAULT_GREETING_TITLE = "Merhaba, Yuşa";
-export const DEFAULT_GREETING_SUBTITLE = "Daddy's Home? Bugün ne yapıyoruz.";
 
 export async function getGeminiApiKey(): Promise<string | undefined> {
   const result = await chrome.storage.local.get(GEMINI_API_KEY);
@@ -44,6 +42,15 @@ export async function getTheme(): Promise<ThemeId | undefined> {
 
 export async function setTheme(theme: ThemeId): Promise<void> {
   await chrome.storage.local.set({ [THEME_KEY]: theme });
+}
+
+export async function getLanguage(): Promise<AppLanguage | undefined> {
+  const result = await chrome.storage.local.get(LANGUAGE_KEY);
+  return result[LANGUAGE_KEY] as AppLanguage | undefined;
+}
+
+export async function setLanguage(language: AppLanguage): Promise<void> {
+  await chrome.storage.local.set({ [LANGUAGE_KEY]: language });
 }
 
 export async function getGreetingTitle(): Promise<string | undefined> {

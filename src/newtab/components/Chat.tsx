@@ -1,15 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { QUICK_ASK_PORT, type ChatMessageDto, type QuickAskResponse, type WebSourceDto } from "../../shared/types";
-import {
-  DEFAULT_GREETING_SUBTITLE,
-  DEFAULT_GREETING_TITLE,
-  getGreetingSubtitle,
-  getGreetingTitle,
-} from "../../shared/storage";
+import { getGreetingSubtitle, getGreetingTitle } from "../../shared/storage";
 
 interface ChatMessage {
   id: string;
@@ -20,8 +16,9 @@ interface ChatMessage {
 }
 
 export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolean) => void }) {
-  const [greetingTitle, setGreetingTitle] = useState(DEFAULT_GREETING_TITLE);
-  const [greetingSubtitle, setGreetingSubtitle] = useState(DEFAULT_GREETING_SUBTITLE);
+  const { t } = useTranslation();
+  const [greetingTitle, setGreetingTitle] = useState<string | null>(null);
+  const [greetingSubtitle, setGreetingSubtitle] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [prompt, setPrompt] = useState("");
   const [grounded, setGrounded] = useState(false);
@@ -30,12 +27,8 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    getGreetingTitle().then((v) => {
-      if (v) setGreetingTitle(v);
-    });
-    getGreetingSubtitle().then((v) => {
-      if (v) setGreetingSubtitle(v);
-    });
+    getGreetingTitle().then((v) => setGreetingTitle(v && v.trim() ? v : null));
+    getGreetingSubtitle().then((v) => setGreetingSubtitle(v && v.trim() ? v : null));
   }, []);
 
   useEffect(() => {
@@ -88,8 +81,8 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
   return (
     <>
       <div className="greeting">
-        <h1 className="greeting-title">{greetingTitle}</h1>
-        <p className="greeting-subtitle">{greetingSubtitle}</p>
+        <h1 className="greeting-title">{greetingTitle ?? t("newtab.greetingTitle")}</h1>
+        <p className="greeting-subtitle">{greetingSubtitle ?? t("newtab.greetingSubtitle")}</p>
       </div>
 
       <div className="chat-messages">
@@ -105,7 +98,7 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
             )}
             {m.sources && m.sources.length > 0 && (
               <div className="chat-bubble__sources">
-                <strong>Kaynaklar</strong>
+                <strong>{t("newtab.sources")}</strong>
                 <ol>
                   {m.sources.map((s) => (
                     <li key={s.uri}>
@@ -127,21 +120,21 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Hızlı bir soru sor... (Enter ile gönder)"
+          placeholder={t("newtab.chatPlaceholder")}
           rows={2}
         />
 
         <div className="chat-input__row">
           <label className="chat-input__toggle">
             <input type="checkbox" checked={grounded} onChange={(e) => setGrounded(e.target.checked)} />
-            🌐 Web'de ara
+            {t("newtab.webSearch")}
           </label>
           <button
             className="icon-btn icon-btn--accent"
             onClick={send}
             disabled={!prompt.trim() || status === "streaming"}
-            title="Gönder"
-            aria-label="Gönder"
+            title={t("common.send")}
+            aria-label={t("common.send")}
           >
             <FontAwesomeIcon icon={faPaperPlane} />
           </button>
@@ -151,7 +144,7 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
           <p className="error-text">
             {error}{" "}
             <a href="#" onClick={() => chrome.runtime.openOptionsPage()}>
-              Ayarları aç
+              {t("common.openSettings")}
             </a>
           </p>
         )}

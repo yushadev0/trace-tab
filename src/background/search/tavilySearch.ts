@@ -1,3 +1,5 @@
+import type { AppLanguage } from "../../shared/types";
+
 export interface WebSearchResult {
   title: string;
   url: string;
@@ -36,16 +38,38 @@ export async function searchWeb(
     .map((r) => ({ title: r.title || r.url, url: r.url, content: r.content ?? "" }));
 }
 
-export function buildGroundedPrompt(query: string, results: WebSearchResult[]): string {
-  const context = results
-    .map((r, i) => `${i + 1}. ${r.title}\n${r.content}\nKaynak: ${r.url}`)
-    .join("\n\n");
-
-  return `Kullanıcının sorusu: "${query}"
+const GROUNDED_TEMPLATES: Record<AppLanguage, (query: string, context: string) => string> = {
+  tr: (query, context) => `Kullanıcının sorusu: "${query}"
 
 Aşağıda bu soruyla ilgili güncel web arama sonuçları var:
 
 ${context}
 
-Bu sonuçları kullanarak kullanıcının sorusunu Türkçe, düzenli bir şekilde yanıtla. İddialarını mümkün olduğunca bu kaynaklara dayandır; sonuçlar yetersiz veya çelişkiliyse belirt.`;
+Bu sonuçları kullanarak kullanıcının sorusunu Türkçe, düzenli bir şekilde yanıtla. İddialarını mümkün olduğunca bu kaynaklara dayandır; sonuçlar yetersiz veya çelişkiliyse belirt.`,
+  en: (query, context) => `The user's question: "${query}"
+
+Below are up-to-date web search results related to this question:
+
+${context}
+
+Using these results, answer the user's question in English, in a well-organized way. Ground your claims in these sources as much as possible; if the results are insufficient or contradictory, say so.`,
+  de: (query, context) => `Die Frage des Nutzers: "${query}"
+
+Nachfolgend aktuelle Web-Suchergebnisse zu dieser Frage:
+
+${context}
+
+Beantworte die Frage des Nutzers anhand dieser Ergebnisse auf Deutsch und gut strukturiert. Stütze deine Aussagen so weit wie möglich auf diese Quellen; wenn die Ergebnisse unzureichend oder widersprüchlich sind, weise darauf hin.`,
+};
+
+export function buildGroundedPrompt(
+  query: string,
+  results: WebSearchResult[],
+  lang: AppLanguage = "tr",
+): string {
+  const context = results
+    .map((r, i) => `${i + 1}. ${r.title}\n${r.content}\nURL: ${r.url}`)
+    .join("\n\n");
+
+  return (GROUNDED_TEMPLATES[lang] ?? GROUNDED_TEMPLATES.tr)(query, context);
 }

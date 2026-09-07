@@ -1,5 +1,7 @@
 export type ThemeId = "dark" | "light" | "f1" | "minecraft" | "factorio" | "messi";
 
+export type AppLanguage = "tr" | "en" | "de";
+
 export const QUICK_ASK_PORT = "quick-ask";
 
 export interface WebSourceDto {
@@ -50,7 +52,7 @@ export interface EmailCardDto {
   accountEmail: string;
   from: string;
   date: string;
-  priority: "düşük" | "orta" | "yüksek";
+  priority: "low" | "medium" | "high";
   summary: string;
   link: string;
 }

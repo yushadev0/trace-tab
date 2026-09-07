@@ -510,13 +510,13 @@ a {
   white-space: nowrap;
 }
 
-.email-card__badge--düşük {
+.email-card__badge--low {
   background: var(--priority-low);
 }
-.email-card__badge--orta {
+.email-card__badge--medium {
   background: var(--priority-medium);
 }
-.email-card__badge--yüksek {
+.email-card__badge--high {
   background: var(--priority-high);
 }
 

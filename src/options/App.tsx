@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFloppyDisk, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import EmailProviderConnection from "./components/EmailProviderConnection";
+import LanguageGrid from "./components/LanguageGrid";
 import PasswordField from "./components/PasswordField";
 import ThemeGrid from "./components/ThemeGrid";
 import {
-  DEFAULT_GREETING_SUBTITLE,
-  DEFAULT_GREETING_TITLE,
   clearEmailCache,
   getGeminiApiKey,
   getGreetingSubtitle,
@@ -19,12 +19,20 @@ import {
 } from "../shared/storage";
 
 export default function App() {
+  const { t } = useTranslation();
+  const defaultGreetingTitle = t("newtab.greetingTitle");
+  const defaultGreetingSubtitle = t("newtab.greetingSubtitle");
+
   const [apiKey, setApiKey] = useState("");
   const [tavilyKey, setTavilyKey] = useState("");
-  const [greetingTitle, setGreetingTitleState] = useState(DEFAULT_GREETING_TITLE);
-  const [greetingSubtitle, setGreetingSubtitleState] = useState(DEFAULT_GREETING_SUBTITLE);
+  const [greetingTitle, setGreetingTitleState] = useState("");
+  const [greetingSubtitle, setGreetingSubtitleState] = useState("");
   const [status, setStatus] = useState<"idle" | "saved">("idle");
   const [cacheCleared, setCacheCleared] = useState(false);
+
+  useEffect(() => {
+    document.title = `AI New Tab — ${t("options.title")}`;
+  }, [t]);
 
   useEffect(() => {
     getGeminiApiKey().then((key) => {
@@ -43,11 +51,14 @@ export default function App() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
+    const title = greetingTitle.trim();
+    const subtitle = greetingSubtitle.trim();
     await Promise.all([
       setGeminiApiKey(apiKey.trim()),
       setTavilyApiKey(tavilyKey.trim()),
-      setGreetingTitle(greetingTitle.trim() || DEFAULT_GREETING_TITLE),
-      setGreetingSubtitle(greetingSubtitle.trim() || DEFAULT_GREETING_SUBTITLE),
+      // Varsayılana eşitse boş sakla; böylece dil değişince karşılama da dile uyar.
+      setGreetingTitle(title && title !== defaultGreetingTitle ? title : ""),
+      setGreetingSubtitle(subtitle && subtitle !== defaultGreetingSubtitle ? subtitle : ""),
     ]);
     setStatus("saved");
     setTimeout(() => setStatus("idle"), 1500);
@@ -64,96 +75,98 @@ export default function App() {
       <div className="options-panel panel">
         <div className="flag-strip" aria-hidden="true" />
         <div className="options-header">
-          <h1>Ayarlar</h1>
-          <p>AI New Tab için görünüm ve bağlantı tercihlerin.</p>
+          <h1>{t("options.title")}</h1>
+          <p>{t("options.subtitle")}</p>
         </div>
 
         <form onSubmit={handleSave}>
           <section className="options-section">
-            <h2>Görünüm</h2>
-            <p className="hint">Yeni sekme teması. Seçim hemen kaydedilir.</p>
+            <h2>{t("options.language.heading")}</h2>
+            <p className="hint">{t("options.language.hint")}</p>
+            <LanguageGrid />
+          </section>
+
+          <section className="options-section">
+            <h2>{t("options.appearance.heading")}</h2>
+            <p className="hint">{t("options.appearance.hint")}</p>
             <ThemeGrid />
 
             <div className="field" style={{ marginTop: 20 }}>
-              <label htmlFor="greeting-title">Karşılama başlığı</label>
+              <label htmlFor="greeting-title">{t("options.greeting.titleLabel")}</label>
               <input
                 id="greeting-title"
                 type="text"
                 value={greetingTitle}
                 onChange={(e) => setGreetingTitleState(e.target.value)}
-                placeholder={DEFAULT_GREETING_TITLE}
+                placeholder={defaultGreetingTitle}
               />
             </div>
             <div className="field">
-              <label htmlFor="greeting-subtitle">Karşılama alt yazısı</label>
+              <label htmlFor="greeting-subtitle">{t("options.greeting.subtitleLabel")}</label>
               <input
                 id="greeting-subtitle"
                 type="text"
                 value={greetingSubtitle}
                 onChange={(e) => setGreetingSubtitleState(e.target.value)}
-                placeholder={DEFAULT_GREETING_SUBTITLE}
+                placeholder={defaultGreetingSubtitle}
               />
             </div>
           </section>
 
           <section className="options-section">
-            <h2>Yapay Zeka</h2>
-            <p className="hint">Sohbet ve e-posta özetleri için gerekli.</p>
+            <h2>{t("options.ai.heading")}</h2>
+            <p className="hint">{t("options.ai.hint")}</p>
 
             <div className="field">
               <label htmlFor="gemini-key">Gemini API Key</label>
               <PasswordField id="gemini-key" value={apiKey} onChange={setApiKey} placeholder="AIza..." />
-              <p className="field-help">
-                Google AI Studio üzerinden ücretsiz alabilirsin. Key sadece bu tarayıcıda yerel olarak saklanır.
-              </p>
+              <p className="field-help">{t("options.ai.geminiHelp")}</p>
             </div>
 
             <div className="field">
               <label htmlFor="tavily-key">Tavily API Key</label>
               <PasswordField id="tavily-key" value={tavilyKey} onChange={setTavilyKey} placeholder="tvly-..." />
               <p className="field-help">
-                Hızlı Soru'daki "Web'de ara" seçeneği için gerekli. Ücretsiz key:{" "}
+                {t("options.ai.tavilyHelpBefore")}
                 <a href="https://app.tavily.com" target="_blank" rel="noreferrer">
                   app.tavily.com
-                </a>{" "}
-                (ayda 1.000 ücretsiz sorgu, kart bilgisi gerekmiyor).
+                </a>
+                {t("options.ai.tavilyHelpAfter")}
               </p>
             </div>
           </section>
 
           <section className="options-section">
-            <h2>E-posta bağlantıları</h2>
-            <p className="hint">Gelen kutusu özetleri için Gmail ve/veya Outlook'a bağlan.</p>
+            <h2>{t("options.email.heading")}</h2>
+            <p className="hint">{t("options.email.hint")}</p>
 
             <div className="field">
               <div className="field-title">Gmail</div>
-              <EmailProviderConnection provider="gmail" connectLabel="Gmail'e Bağlan" />
+              <EmailProviderConnection provider="gmail" connectLabel={t("options.email.connectGmail")} />
             </div>
 
             <div className="field">
               <div className="field-title">Outlook</div>
-              <EmailProviderConnection provider="outlook" connectLabel="Outlook'a Bağlan" />
+              <EmailProviderConnection provider="outlook" connectLabel={t("options.email.connectOutlook")} />
             </div>
 
             <div className="field">
-              <div className="field-title">E-posta özet önbelleği</div>
+              <div className="field-title">{t("options.email.cacheTitle")}</div>
               <div className="save-row" style={{ marginTop: 0 }}>
                 <button type="button" className="btn btn--ghost" onClick={handleClearCache}>
-                  <FontAwesomeIcon icon={faTrashCan} /> Önbelleği Temizle
+                  <FontAwesomeIcon icon={faTrashCan} /> {t("options.email.clearCache")}
                 </button>
-                {cacheCleared && <span className="save-status">Temizlendi ✓</span>}
+                {cacheCleared && <span className="save-status">{t("options.email.cleared")}</span>}
               </div>
-              <p className="field-help">
-                Daha önce özetlenmiş e-postaların kaydını siler; bir sonraki yenilemede hepsi yeniden özetlenir.
-              </p>
+              <p className="field-help">{t("options.email.cacheHelp")}</p>
             </div>
           </section>
 
           <div className="save-row">
             <button type="submit" className="btn">
-              <FontAwesomeIcon icon={faFloppyDisk} /> Kaydet
+              <FontAwesomeIcon icon={faFloppyDisk} /> {t("options.save")}
             </button>
-            {status === "saved" && <span className="save-status">Kaydedildi ✓</span>}
+            {status === "saved" && <span className="save-status">{t("options.saved")}</span>}
           </div>
         </form>
       </div>

@@ -74,7 +74,7 @@ async function fetchWithRateLimit(url: string, init: RequestInit): Promise<Respo
 
 export function createGeminiProvider(apiKey: string): AIProvider {
   return {
-    async streamGenerateText(messages: ChatMessageDto[], onChunk, signal) {
+    async streamGenerateText(messages: ChatMessageDto[], onChunk, signal, systemInstruction) {
       const timeout = withIdleTimeout(signal, STREAM_IDLE_TIMEOUT_MS);
 
       try {
@@ -83,6 +83,9 @@ export function createGeminiProvider(apiKey: string): AIProvider {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             contents: messages.map((m) => ({ role: m.role, parts: [{ text: m.text }] })),
+            ...(systemInstruction
+              ? { systemInstruction: { parts: [{ text: systemInstruction }] } }
+              : {}),
           }),
           signal: timeout.signal,
         });

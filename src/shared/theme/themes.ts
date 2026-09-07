@@ -1,17 +1,6 @@
 import type { ThemeId } from "../types";
 
-export interface ThemeMeta {
-  id: ThemeId;
-  label: string;
-}
-
-export const THEMES: ThemeMeta[] = [
-  { id: "dark", label: "Koyu" },
-  { id: "light", label: "Açık" },
-  { id: "f1", label: "Formula 1" },
-  { id: "minecraft", label: "Minecraft" },
-  { id: "factorio", label: "Factorio" },
-  { id: "messi", label: "Messi / Futbol" },
-];
+/** Görünen etiketler i18n'den gelir: t(`theme.${id}`). */
+export const THEME_IDS: ThemeId[] = ["dark", "light", "f1", "minecraft", "factorio", "messi"];
 
 export const DEFAULT_THEME: ThemeId = "dark";

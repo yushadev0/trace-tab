@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { EMAIL_DIGEST_PORT, type EmailCardDto, type EmailDigestResponse } from "../../shared/types";
 
 export interface EmailProgress {
@@ -16,6 +17,7 @@ export interface EmailDigestState {
 }
 
 export function useEmailDigest(): EmailDigestState {
+  const { t } = useTranslation();
   const [cards, setCards] = useState<EmailCardDto[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "running" | "error">("idle");
@@ -26,7 +28,7 @@ export function useEmailDigest(): EmailDigestState {
     if (status === "running") return;
 
     setError("");
-    setStatusMessage("Başlatılıyor…");
+    setStatusMessage(t("inbox.progress.starting"));
     setStatus("running");
     setProgress(null);
 

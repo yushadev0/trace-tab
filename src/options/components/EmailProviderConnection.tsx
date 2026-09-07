@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLinkSlash, faPlug } from "@fortawesome/free-solid-svg-icons";
 import type { EmailConnectionResponse, EmailProvider } from "../../shared/types";
@@ -16,6 +17,7 @@ interface EmailProviderConnectionProps {
 }
 
 export default function EmailProviderConnection({ provider, connectLabel }: EmailProviderConnectionProps) {
+  const { t } = useTranslation();
   const [email, setEmail] = useState<string | undefined>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -33,7 +35,7 @@ export default function EmailProviderConnection({ provider, connectLabel }: Emai
     if (res.connected) {
       setEmail(res.email);
     } else {
-      setError(res.error ?? "Bağlanılamadı.");
+      setError(res.error ?? t("options.email.connectFailed"));
     }
     setLoading(false);
   }
@@ -50,15 +52,15 @@ export default function EmailProviderConnection({ provider, connectLabel }: Emai
       {email ? (
         <div className="gmail-row">
           <span className="gmail-email">
-            Bağlı: <strong>{email}</strong>
+            {t("options.email.connected")} <strong>{email}</strong>
           </span>
           <button type="button" className="btn btn--ghost" onClick={disconnect} disabled={loading}>
-            <FontAwesomeIcon icon={faLinkSlash} /> Bağlantıyı kes
+            <FontAwesomeIcon icon={faLinkSlash} /> {t("common.disconnect")}
           </button>
         </div>
       ) : (
         <button type="button" className="btn" onClick={connect} disabled={loading}>
-          <FontAwesomeIcon icon={faPlug} /> {loading ? "Kontrol ediliyor…" : connectLabel}
+          <FontAwesomeIcon icon={faPlug} /> {loading ? t("options.email.checking") : connectLabel}
         </button>
       )}
       {error && <p className="gmail-error">{error}</p>}

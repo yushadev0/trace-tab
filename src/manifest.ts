@@ -6,6 +6,18 @@ export default defineManifest({
   name: "AI New Tab",
   version: pkg.version,
   description: "Yapay zeka destekli yeni sekme: hızlı sorular, web'de arama ve e-posta özetleri.",
+  icons: {
+    16: "icons/icon-16.png",
+    32: "icons/icon-32.png",
+    48: "icons/icon-48.png",
+    128: "icons/icon-128.png",
+  },
+  action: {
+    default_icon: {
+      16: "icons/icon-16.png",
+      32: "icons/icon-32.png",
+    },
+  },
   chrome_url_overrides: {
     newtab: "src/newtab/index.html",
   },
