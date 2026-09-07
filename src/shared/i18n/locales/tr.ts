@@ -30,7 +30,7 @@ export const tr = {
   },
   options: {
     title: "Ayarlar",
-    subtitle: "AI New Tab için görünüm ve bağlantı tercihlerin.",
+    subtitle: "Trace Tab için görünüm ve bağlantı tercihlerin.",
     save: "Kaydet",
     saved: "Kaydedildi ✓",
     appearance: {

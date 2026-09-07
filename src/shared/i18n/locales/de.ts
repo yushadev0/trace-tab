@@ -31,7 +31,7 @@ export const de: TranslationResource = {
   },
   options: {
     title: "Einstellungen",
-    subtitle: "Deine Darstellungs- und Verbindungseinstellungen für AI New Tab.",
+    subtitle: "Deine Darstellungs- und Verbindungseinstellungen für Trace Tab.",
     save: "Speichern",
     saved: "Gespeichert ✓",
     appearance: {

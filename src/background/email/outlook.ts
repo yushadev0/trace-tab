@@ -3,7 +3,7 @@ import type { EmailSummaryInput } from "../../shared/types";
 
 const AUTHORITY = "https://login.microsoftonline.com/common/oauth2/v2.0";
 const SCOPES = "offline_access Mail.Read User.Read";
-/** AI New Tab Email Service — tüm kullanıcılar aynı Azure uygulamasını paylaşıyor (Gmail ile aynı model). */
+/** Trace Tab Email Service — tüm kullanıcılar aynı Azure uygulamasını paylaşıyor (Gmail ile aynı model). */
 const OUTLOOK_CLIENT_ID = "3ac88b95-c611-4ce6-9f54-9005834e70c7";
 /** Token'ı süresi dolmadan bir dakika önce yenilenmiş say. */
 const EXPIRY_BUFFER_MS = 60_000;

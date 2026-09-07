@@ -1,8 +1,8 @@
-# AI New Tab — Gizlilik Politikası
+# Trace Tab — Gizlilik Politikası
 
 **Son güncelleme:** [TARİH GİRİN]
 
-Bu gizlilik politikası, "AI New Tab" Chrome uzantısının ("Uzantı") kişisel verilerinizi nasıl işlediğini açıklar. Uzantıyı kurarak veya kullanarak bu politikayı kabul etmiş olursunuz.
+Bu gizlilik politikası, "Trace Tab" Chrome uzantısının ("Uzantı") kişisel verilerinizi nasıl işlediğini açıklar. Uzantıyı kurarak veya kullanarak bu politikayı kabul etmiş olursunuz.
 
 ## 1. Kısaca özet
 
@@ -59,7 +59,7 @@ Bu servislere yapılan istekler doğrudan sizin tarayıcınızdan gider; bizim s
 
 ## 4. Google Kullanıcı Verileri Politikasına Uyum
 
-AI New Tab'ın Google API'lerinden aldığı bilgilerin kullanımı ve başka bir uygulamaya aktarımı, [Google API Hizmetleri Kullanıcı Verileri Politikası](https://developers.google.com/terms/api-services-user-data-policy) dahil olmak üzere Sınırlı Kullanım (Limited Use) şartlarına uyar. Somut olarak:
+Trace Tab'ın Google API'lerinden aldığı bilgilerin kullanımı ve başka bir uygulamaya aktarımı, [Google API Hizmetleri Kullanıcı Verileri Politikası](https://developers.google.com/terms/api-services-user-data-policy) dahil olmak üzere Sınırlı Kullanım (Limited Use) şartlarına uyar. Somut olarak:
 
 - Gmail verileri yalnızca Bölüm 2.1'de açıklanan özetleme özelliği için kullanılır.
 - Bu veriler insani incelemeye tabi tutulmaz, reklam amacıyla kullanılmaz, kredi puanlama veya borç verme amaçlı kullanılmaz.

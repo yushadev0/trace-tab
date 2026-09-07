@@ -31,7 +31,7 @@ export default function App() {
   const [cacheCleared, setCacheCleared] = useState(false);
 
   useEffect(() => {
-    document.title = `AI New Tab — ${t("options.title")}`;
+    document.title = `Trace Tab — ${t("options.title")}`;
   }, [t]);
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import pkg from "../package.json" with { type: "json" };
 
 export default defineManifest({
   manifest_version: 3,
-  name: "AI New Tab",
+  name: "Trace Tab",
   version: pkg.version,
   description: "Yapay zeka destekli yeni sekme: hızlı sorular, web'de arama ve e-posta özetleri.",
   icons: {

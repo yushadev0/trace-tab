@@ -31,7 +31,7 @@ export const en: TranslationResource = {
   },
   options: {
     title: "Settings",
-    subtitle: "Your appearance and connection preferences for AI New Tab.",
+    subtitle: "Your appearance and connection preferences for Trace Tab.",
     save: "Save",
     saved: "Saved ✓",
     appearance: {

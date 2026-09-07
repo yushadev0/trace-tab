@@ -1,7 +1,7 @@
 {
-  "name": "chrome_ai_new_tab",
+  "name": "trace-tab",
   "version": "0.1.0",
-  "description": "AI destekli Chrome yeni sekme uzantısı",
+  "description": "Trace Tab — yapay zeka destekli Chrome yeni sekme uzantısı",
   "private": true,
   "type": "module",
   "scripts": {

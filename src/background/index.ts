@@ -24,7 +24,7 @@ const EMAIL_CACHE_LIMIT = 300;
 const EMAIL_DIGEST_LIMIT = 10;
 
 chrome.runtime.onInstalled.addListener(() => {
-  console.log("[AI New Tab] service worker installed");
+  console.log("[Trace Tab] service worker installed");
 });
 
 chrome.runtime.onMessage.addListener((message: EmailConnectionRequest, _sender, sendResponse) => {
