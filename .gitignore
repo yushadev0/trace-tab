@@ -2,3 +2,7 @@ node_modules
 dist
 .env
 *.local
+
+# CWS yükleme paketi
+trace-tab.zip
+*.zip
