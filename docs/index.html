@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trace Tab</title>
+<meta name="description" content="Trace Tab — yapay zeka destekli Chrome yeni sekme uzantısı: hızlı sorular, web'de arama ve gelen kutusu özetleri.">
+<style>
+:root{--bg:#fff;--fg:#1a1a2e;--muted:#585868;--accent:#6366F1;--border:#e5e5ef;--card:#f7f7fb}
+@media (prefers-color-scheme:dark){:root{--bg:#15151c;--fg:#e8e8f0;--muted:#a0a0b0;--accent:#818cf8;--border:#2a2a38;--card:#1d1d27}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:48px 20px 80px}
+header{display:flex;align-items:center;gap:14px}
+.logo{width:44px;height:44px;flex:none}
+.brand{font-weight:700;font-size:22px;letter-spacing:-.02em}
+h1{font-size:30px;margin:32px 0 8px;letter-spacing:-.02em}
+.lead{color:var(--muted);font-size:17px;margin:0 0 28px}
+h2{font-size:18px;margin:36px 0 10px}
+a{color:var(--accent)}
+ul{padding-left:22px}
+li{margin:7px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0}
+footer{margin-top:56px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="128" height="128" rx="28" fill="#6366F1"/>
+      <g transform="translate(4 4) scale(1.2)" stroke="#fff" stroke-width="3.6" stroke-linecap="round">
+        <line x1="50" y1="40" x2="50" y2="16"/><line x1="55" y1="41.34" x2="63" y2="27.48"/>
+        <line x1="60" y1="50" x2="84" y2="50"/><line x1="58.66" y1="55" x2="72.52" y2="63"/>
+        <line x1="55" y1="58.66" x2="67" y2="79.44"/><line x1="50" y1="60" x2="50" y2="76"/>
+        <line x1="45" y1="58.66" x2="33" y2="79.44"/><line x1="41.34" y1="55" x2="27.48" y2="63"/>
+        <line x1="40" y1="50" x2="16" y2="50"/><line x1="41.34" y1="45" x2="27.48" y2="37"/>
+        <line x1="45" y1="41.34" x2="33" y2="20.56"/>
+      </g>
+      <circle cx="64" cy="64" r="3.84" fill="#fff"/>
+    </svg>
+    <span class="brand">Trace Tab</span>
+  </header>
+
+  <h1>Trace Tab</h1>
+  <p class="lead">Yapay zeka destekli bir Chrome yeni sekme uzantısı: hızlı sorular sor, istersen web'de aratıp kaynaklı yanıt al, Gmail ve Outlook gelen kutundaki okunmamış e-postaların kısa özetlerini gör. Türkçe, İngilizce ve Almanca arayüz.</p>
+
+  <div class="card">
+    <strong>Sunucumuz yok.</strong> Tüm veri akışı doğrudan tarayıcın ile Google, Microsoft ve Tavily servisleri arasında geçer. API anahtarların ve oturum bilgilerin yalnızca kendi tarayıcında (<code>chrome.storage.local</code>) saklanır.
+  </div>
+
+  <h2>Gizlilik politikası</h2>
+  <ul>
+    <li><a href="privacy-tr.html">Türkçe</a></li>
+    <li><a href="privacy-en.html">English</a></li>
+    <li><a href="privacy-de.html">Deutsch</a></li>
+  </ul>
+
+  <h2>Kaynak kodu</h2>
+  <p><a href="https://github.com/yushadev0/trace-tab">github.com/yushadev0/trace-tab</a></p>
+
+  <h2>İletişim</h2>
+  <p><a href="mailto:yusaguverdik@gmail.com">yusaguverdik@gmail.com</a></p>
+
+  <footer>
+    Trace Tab, Yuşa Göverdik (yushadev0) tarafından geliştirilmiştir. · Son güncelleme: 7 Eylül 2026
+  </footer>
+</div>
+</body>
+</html>

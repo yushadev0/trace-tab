@@ -1,6 +1,10 @@
 # Trace Tab — Gizlilik Politikası
 
-**Son güncelleme:** [TARİH GİRİN]
+> **Yayınlanan sürümler:** [Türkçe](privacy-tr.html) · [English](privacy-en.html) · [Deutsch](privacy-de.html)
+> (GitHub Pages: `https://yushadev0.github.io/trace-tab/privacy-tr.html`)
+> Bu Markdown dosyası kaynak metindir; mağaza ve OAuth için yukarıdaki HTML sayfaları kullanılır.
+
+**Son güncelleme:** 7 Eylül 2026
 
 Bu gizlilik politikası, "Trace Tab" Chrome uzantısının ("Uzantı") kişisel verilerinizi nasıl işlediğini açıklar. Uzantıyı kurarak veya kullanarak bu politikayı kabul etmiş olursunuz.
 
@@ -22,7 +26,7 @@ Gmail veya Outlook hesabınızı bağladığınızda, Uzantı yalnızca **okunma
 - Konu
 - Kısa bir içerik önizlemesi (snippet)
 
-Bu bilgiler, e-postanın Türkçe 1-2 cümlelik bir özetini ve önem derecesini (düşük/orta/yüksek) üretmek amacıyla Google Gemini API'sine gönderilir. Üretilen özet, yalnızca sizin tarayıcınızda (`chrome.storage.local`) önbelleğe alınır ki aynı e-posta tekrar tekrar özetlenmesin. Bu önbelleği Ayarlar sayfasından istediğiniz zaman temizleyebilirsiniz.
+Bu bilgiler, e-postanın 1-2 cümlelik bir özetini ve önem derecesini (düşük/orta/yüksek) üretmek amacıyla Google Gemini API'sine gönderilir. Özet, arayüzde seçtiğiniz dilde (Türkçe, İngilizce veya Almanca) üretilir. Üretilen özet, yalnızca sizin tarayıcınızda (`chrome.storage.local`) önbelleğe alınır ki aynı e-posta tekrar tekrar özetlenmesin. Bu önbelleği Ayarlar sayfasından istediğiniz zaman temizleyebilirsiniz.
 
 Uzantı e-postalarınızı **silmez, göndermez, yanıtlamaz, yönlendirmez veya değiştirmez**. Sadece okuma (read-only) izni kullanılır.
 
@@ -42,7 +46,7 @@ Aşağıdaki bilgiler yalnızca kendi bilgisayarınızdaki `chrome.storage.local
 
 - Gemini ve Tavily API anahtarlarınız
 - Gmail/Outlook OAuth erişim ve yenileme belirteçleri (token)
-- Seçtiğiniz tema, karşılama başlığı/alt yazısı gibi görünüm tercihleri
+- Seçtiğiniz dil, tema, karşılama başlığı/alt yazısı gibi görünüm tercihleri
 - Daha önce özetlenmiş e-postaların önbelleği
 
 Bu veriler yalnızca uzantıyı kaldırdığınızda veya ilgili bağlantıyı/önbelleği kendiniz temizlediğinizde silinir.
@@ -85,8 +89,6 @@ Bu politikayı zaman zaman güncelleyebiliriz. Önemli değişikliklerde bu sayf
 
 ## 9. İletişim
 
-Bu politikayla veya Uzantı'nın veri işleme uygulamalarıyla ilgili sorularınız için: **[İLETİŞİM E-POSTASI GİRİN]**
+Bu politikayla veya Uzantı'nın veri işleme uygulamalarıyla ilgili sorularınız için: **yusaguverdik@gmail.com**
 
----
-
-*Not: Bu metin taslak olarak hazırlanmıştır. Yayınlamadan önce [TARİH GİRİN] ve [İLETİŞİM E-POSTASI GİRİN] alanlarını doldurun, ve gerçek uygulama davranışıyla (özellikle gelecekte eklenecek yeni özelliklerle) tutarlı olduğundan emin olun.*
+Geliştirici: Yuşa Göverdik (yushadev0)

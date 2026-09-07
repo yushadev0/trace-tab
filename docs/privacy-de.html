@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trace Tab — Datenschutzerklärung</title>
+<meta name="description" content="Datenschutzerklärung für die Chrome-Erweiterung Trace Tab.">
+<style>
+:root{--bg:#fff;--fg:#1a1a2e;--muted:#585868;--accent:#6366F1;--border:#e5e5ef;--card:#f7f7fb}
+@media (prefers-color-scheme:dark){:root{--bg:#15151c;--fg:#e8e8f0;--muted:#a0a0b0;--accent:#818cf8;--border:#2a2a38;--card:#1d1d27}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+header{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;flex:none}
+.brand{font-weight:700;font-size:18px;letter-spacing:-.01em}
+h1{font-size:26px;margin:26px 0 4px;letter-spacing:-.02em}
+.updated{color:var(--muted);font-size:14px;margin:0}
+.langs{margin:14px 0 0;font-size:14px}
+.langs a{color:var(--accent);text-decoration:none;font-weight:600}
+.langs a[aria-current]{color:var(--muted);font-weight:400;cursor:default}
+h2{font-size:19px;margin:34px 0 8px;letter-spacing:-.01em}
+h3{font-size:16px;margin:22px 0 6px}
+a{color:var(--accent)}
+ul{padding-left:22px}li{margin:5px 0}
+hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+.note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--muted)}
+footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="128" height="128" rx="28" fill="#6366F1"/>
+      <g transform="translate(4 4) scale(1.2)" stroke="#fff" stroke-width="3.6" stroke-linecap="round">
+        <line x1="50" y1="40" x2="50" y2="16"/><line x1="55" y1="41.34" x2="63" y2="27.48"/>
+        <line x1="60" y1="50" x2="84" y2="50"/><line x1="58.66" y1="55" x2="72.52" y2="63"/>
+        <line x1="55" y1="58.66" x2="67" y2="79.44"/><line x1="50" y1="60" x2="50" y2="76"/>
+        <line x1="45" y1="58.66" x2="33" y2="79.44"/><line x1="41.34" y1="55" x2="27.48" y2="63"/>
+        <line x1="40" y1="50" x2="16" y2="50"/><line x1="41.34" y1="45" x2="27.48" y2="37"/>
+        <line x1="45" y1="41.34" x2="33" y2="20.56"/>
+      </g>
+      <circle cx="64" cy="64" r="3.84" fill="#fff"/>
+    </svg>
+    <span class="brand">Trace Tab</span>
+  </header>
+
+  <h1>Datenschutzerklärung</h1>
+  <p class="updated">Zuletzt aktualisiert: 7. September 2026</p>
+  <p class="langs"><a href="privacy-tr.html">Türkçe</a> · <a href="privacy-en.html">English</a> · <a href="privacy-de.html" aria-current="page">Deutsch</a></p>
+
+  <p>Diese Datenschutzerklärung erläutert, wie die Chrome-Erweiterung &bdquo;Trace Tab&ldquo; (die &bdquo;Erweiterung&ldquo;) Ihre personenbezogenen Daten verarbeitet. Mit der Installation oder Nutzung der Erweiterung akzeptieren Sie diese Erklärung.</p>
+
+  <h2>1. Kurzzusammenfassung</h2>
+  <ul>
+    <li>Wir betreiben <strong>keinen Server</strong>. Der gesamte Datenfluss findet direkt zwischen Ihrem Browser und den Diensten von Google, Microsoft und Tavily statt; keine Daten laufen über einen von uns kontrollierten Server.</li>
+    <li>Wir tun <strong>nichts außer dem Anzeigen</strong> Ihrer E-Mails — kein Löschen, Senden, Antworten oder Archivieren. Wir lesen nur Absender / Datum / Betreff / Kurzvorschau Ihrer ungelesenen E-Mails und fassen sie zusammen.</li>
+    <li>Ihre API-Schlüssel (Gemini, Tavily) und OAuth-Sitzungsdaten werden ausschließlich in Ihrem eigenen Browser (<code>chrome.storage.local</code>) gespeichert und niemals an uns oder Dritte weitergegeben.</li>
+    <li>Wir verkaufen Ihre Daten nicht, verwenden sie nicht für Werbung und geben sie nicht zu Marketingzwecken an Dritte weiter.</li>
+  </ul>
+
+  <h2>2. Welche Daten wir verarbeiten</h2>
+
+  <h3>2.1 E-Mail-Daten (Gmail / Outlook)</h3>
+  <p>Wenn Sie Ihr Gmail- oder Outlook-Konto verbinden, liest die Erweiterung nur die folgenden Angaben aus Ihren <strong>ungelesenen</strong> Posteingangs-E-Mails:</p>
+  <ul>
+    <li>Absendername / -adresse</li>
+    <li>Datum</li>
+    <li>Betreff</li>
+    <li>Eine kurze Inhaltsvorschau (Snippet)</li>
+  </ul>
+  <p>Diese Informationen werden an die Google-Gemini-API gesendet, um eine Zusammenfassung der E-Mail in 1–2 Sätzen sowie eine Prioritätsstufe (niedrig / mittel / hoch) zu erzeugen. Die Zusammenfassung wird in der von Ihnen in der Oberfläche gewählten Sprache erstellt (Türkisch, Englisch oder Deutsch). Die erzeugte Zusammenfassung wird nur in Ihrem eigenen Browser (<code>chrome.storage.local</code>) zwischengespeichert, damit dieselbe E-Mail nicht wiederholt zusammengefasst wird. Sie können diesen Cache jederzeit über die Einstellungsseite leeren.</p>
+  <p>Die Erweiterung <strong>löscht, sendet, beantwortet, leitet</strong> Ihre E-Mails <strong>nicht weiter und ändert sie nicht</strong>. Es wird nur Lesezugriff (read-only) verwendet.</p>
+  <p>Wenn Sie auf eine E-Mail-Karte klicken, wird die betreffende E-Mail oder Ihr Posteingang in einem neuen Tab in der Weboberfläche von Gmail bzw. Outlook geöffnet; dies geschieht vollständig über Ihren Browser.</p>
+
+  <h3>2.2 KI-Chat (Gemini)</h3>
+  <p>Nachrichten, die Sie mit der Funktion &bdquo;Schnellfrage&ldquo; eingeben, werden direkt aus Ihrem Browser an die Google-Gemini-API gesendet, um eine Antwort zu erzeugen. Ihre vorherigen Nachrichten in einem Gespräch werden bei nachfolgenden Anfragen erneut mitgesendet, um den Kontext zu erhalten. Dieser Gesprächsverlauf wird nur im gerade geöffneten Tab im Browser-Arbeitsspeicher gehalten; er wird gelöscht, sobald Sie den Tab schließen oder einen neuen Tab öffnen, und wird nirgendwo dauerhaft gespeichert.</p>
+
+  <h3>2.3 Websuche (Tavily)</h3>
+  <p>Wenn Sie die Option &bdquo;Im Web suchen&ldquo; aktivieren, wird Ihre Frage an die Tavily-Such-API gesendet, um aktuelle Ergebnisse abzurufen. Dies geschieht nur, wenn Sie diese Option ausdrücklich aktivieren.</p>
+
+  <h3>2.4 Lokal gespeicherte Daten</h3>
+  <p>Die folgenden Angaben werden nur in <code>chrome.storage.local</code> auf Ihrem eigenen Computer gespeichert und nicht an uns oder Dritte weitergegeben:</p>
+  <ul>
+    <li>Ihre Gemini- und Tavily-API-Schlüssel</li>
+    <li>Gmail-/Outlook-OAuth-Zugriffs- und Aktualisierungstoken (Refresh Token)</li>
+    <li>Darstellungseinstellungen wie gewählte Sprache, Design und Begrüßungstitel / -untertitel</li>
+    <li>Der Cache zuvor zusammengefasster E-Mails</li>
+  </ul>
+  <p>Diese Daten werden nur gelöscht, wenn Sie die Erweiterung deinstallieren oder die betreffende Verbindung / den Cache selbst leeren.</p>
+
+  <h2>3. Mit wem wir Daten teilen</h2>
+  <p>Wir geben Ihre Daten an keinen Dritten zu Marketing-, Werbe- oder Verkaufszwecken weiter. Damit die Erweiterung funktioniert, kommuniziert sie direkt mit den folgenden Diensten (jeder unterliegt seiner eigenen Datenschutzerklärung):</p>
+  <ul>
+    <li><strong>Google</strong> — Gmail-API (E-Mail-Lesen), Gemini-API (Zusammenfassung und Chat), Google OAuth (Authentifizierung für die Gmail-Verbindung)</li>
+    <li><strong>Microsoft</strong> — Microsoft-Graph-API (Outlook-E-Mail-Lesen), Microsoft-Identitätsplattform (Authentifizierung für die Outlook-Verbindung)</li>
+    <li><strong>Tavily</strong> — Such-API, nur wenn die Funktion &bdquo;Im Web suchen&ldquo; verwendet wird</li>
+  </ul>
+  <p>Anfragen an diese Dienste gehen direkt von Ihrem Browser aus; kein Server von uns ist dazwischengeschaltet, da wir keinen haben.</p>
+
+  <h2>4. Einhaltung der Google-Richtlinie für Nutzerdaten</h2>
+  <p>Die Verwendung und Weitergabe von Informationen, die Trace Tab von Google-APIs erhält, an andere Apps erfolgt in Übereinstimmung mit der <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">Google API Services User Data Policy</a>, einschließlich der Anforderungen zur eingeschränkten Nutzung (Limited Use). Konkret:</p>
+  <ul>
+    <li>Gmail-Daten werden ausschließlich für die in Abschnitt 2.1 beschriebene Zusammenfassungsfunktion verwendet.</li>
+    <li>Diese Daten werden keiner menschlichen Überprüfung unterzogen, nicht für Werbung und nicht für Kreditwürdigkeitsprüfung oder Kreditvergabe verwendet.</li>
+    <li>Daten werden nicht länger gespeichert, als für die beschriebene Funktionalität erforderlich ist (siehe Abschnitt 2.4).</li>
+  </ul>
+
+  <h2>5. Datensicherheit</h2>
+  <p>Ihre API-Schlüssel und Sitzungstoken werden in <code>chrome.storage.local</code> gespeichert, beschränkt auf Ihr Browserprofil. Die Outlook-Verbindung verwendet den branchenüblichen PKCE-OAuth-2.0-Ablauf (Proof Key for Code Exchange). Die Erweiterung sendet keine Ihrer Zugangsdaten (Passwort, API-Schlüssel, Token) an unseren Server oder den Server eines Dritten.</p>
+
+  <h2>6. Verbindung trennen und Daten löschen</h2>
+  <ul>
+    <li>Sie können die Gmail-/Outlook-Verbindung mit einem Klick auf der Einstellungsseite trennen; dabei wird das lokal gespeicherte Sitzungstoken gelöscht.</li>
+    <li>Sie können den E-Mail-Zusammenfassungs-Cache jederzeit über die Schaltfläche &bdquo;Cache leeren&ldquo; auf der Einstellungsseite löschen.</li>
+    <li>Wenn Sie die Erweiterung aus Chrome entfernen, werden alle Daten in <code>chrome.storage.local</code> (API-Schlüssel, Cache, Einstellungen, Token) automatisch von Chrome gelöscht.</li>
+  </ul>
+
+  <h2>7. Datenschutz für Kinder</h2>
+  <p>Die Erweiterung richtet sich nicht an Kinder unter 13 Jahren und erhebt wissentlich keine Daten von ihnen.</p>
+
+  <h2>8. Änderungen dieser Erklärung</h2>
+  <p>Wir können diese Erklärung von Zeit zu Zeit aktualisieren. Bei wesentlichen Änderungen wird das Datum &bdquo;Zuletzt aktualisiert&ldquo; oben auf dieser Seite angepasst.</p>
+
+  <h2>9. Kontakt</h2>
+  <p>Bei Fragen zu dieser Erklärung oder zum Umgang der Erweiterung mit Daten: <a href="mailto:yusaguverdik@gmail.com">yusaguverdik@gmail.com</a></p>
+  <p>Entwickler: Yuşa Göverdik (yushadev0)</p>
+
+  <footer>Trace Tab · <a href="https://github.com/yushadev0/trace-tab">github.com/yushadev0/trace-tab</a></footer>
+</div>
+</body>
+</html>

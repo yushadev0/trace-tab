@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trace Tab — Gizlilik Politikası</title>
+<meta name="description" content="Trace Tab Chrome uzantısının gizlilik politikası.">
+<style>
+:root{--bg:#fff;--fg:#1a1a2e;--muted:#585868;--accent:#6366F1;--border:#e5e5ef;--card:#f7f7fb}
+@media (prefers-color-scheme:dark){:root{--bg:#15151c;--fg:#e8e8f0;--muted:#a0a0b0;--accent:#818cf8;--border:#2a2a38;--card:#1d1d27}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:32px 20px 80px}
+header{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;flex:none}
+.brand{font-weight:700;font-size:18px;letter-spacing:-.01em}
+h1{font-size:26px;margin:26px 0 4px;letter-spacing:-.02em}
+.updated{color:var(--muted);font-size:14px;margin:0}
+.langs{margin:14px 0 0;font-size:14px}
+.langs a{color:var(--accent);text-decoration:none;font-weight:600}
+.langs a[aria-current]{color:var(--muted);font-weight:400;cursor:default}
+h2{font-size:19px;margin:34px 0 8px;letter-spacing:-.01em}
+h3{font-size:16px;margin:22px 0 6px}
+a{color:var(--accent)}
+ul{padding-left:22px}li{margin:5px 0}
+hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+.note{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-size:14px;color:var(--muted)}
+footer{margin-top:48px;color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="128" height="128" rx="28" fill="#6366F1"/>
+      <g transform="translate(4 4) scale(1.2)" stroke="#fff" stroke-width="3.6" stroke-linecap="round">
+        <line x1="50" y1="40" x2="50" y2="16"/><line x1="55" y1="41.34" x2="63" y2="27.48"/>
+        <line x1="60" y1="50" x2="84" y2="50"/><line x1="58.66" y1="55" x2="72.52" y2="63"/>
+        <line x1="55" y1="58.66" x2="67" y2="79.44"/><line x1="50" y1="60" x2="50" y2="76"/>
+        <line x1="45" y1="58.66" x2="33" y2="79.44"/><line x1="41.34" y1="55" x2="27.48" y2="63"/>
+        <line x1="40" y1="50" x2="16" y2="50"/><line x1="41.34" y1="45" x2="27.48" y2="37"/>
+        <line x1="45" y1="41.34" x2="33" y2="20.56"/>
+      </g>
+      <circle cx="64" cy="64" r="3.84" fill="#fff"/>
+    </svg>
+    <span class="brand">Trace Tab</span>
+  </header>
+
+  <h1>Gizlilik Politikası</h1>
+  <p class="updated">Son güncelleme: 7 Eylül 2026</p>
+  <p class="langs"><a href="privacy-tr.html" aria-current="page">Türkçe</a> · <a href="privacy-en.html">English</a> · <a href="privacy-de.html">Deutsch</a></p>
+
+  <p>Bu gizlilik politikası, &ldquo;Trace Tab&rdquo; Chrome uzantısının (&ldquo;Uzantı&rdquo;) kişisel verilerinizi nasıl işlediğini açıklar. Uzantıyı kurarak veya kullanarak bu politikayı kabul etmiş olursunuz.</p>
+
+  <h2>1. Kısaca özet</h2>
+  <ul>
+    <li>Uzantının çalıştığı bir sunucumuz <strong>yok</strong>. Tüm veri akışı doğrudan sizin tarayıcınız ile Google, Microsoft ve Tavily'nin kendi servisleri arasında gerçekleşir; hiçbir veri bizim kontrolümüzdeki bir sunucuya uğramaz.</li>
+    <li>E-postalarınızı <strong>görüntülemek dışında hiçbir şey yapmayız</strong> — silme, gönderme, yanıtlama, arşivleme gibi işlemler yapılmaz. Sadece okunmamış e-postalarınızın başlık/gönderen/tarih/kısa önizleme bilgisini okuyup özetleriz.</li>
+    <li>API anahtarlarınız (Gemini, Tavily) ve OAuth oturum bilgileriniz yalnızca kendi tarayıcınızda (<code>chrome.storage.local</code>) saklanır, bizimle veya üçüncü bir tarafla paylaşılmaz.</li>
+    <li>Verilerinizi satmıyoruz, reklam amacıyla kullanmıyoruz, üçüncü taraflarla pazarlama amaçlı paylaşmıyoruz.</li>
+  </ul>
+
+  <h2>2. Hangi verileri işliyoruz</h2>
+
+  <h3>2.1 E-posta verileri (Gmail / Outlook)</h3>
+  <p>Gmail veya Outlook hesabınızı bağladığınızda, Uzantı yalnızca <strong>okunmamış</strong> gelen kutusu e-postalarınızdan şu bilgileri okur:</p>
+  <ul>
+    <li>Gönderen adı/adresi</li>
+    <li>Tarih</li>
+    <li>Konu</li>
+    <li>Kısa bir içerik önizlemesi (snippet)</li>
+  </ul>
+  <p>Bu bilgiler, e-postanın 1-2 cümlelik bir özetini ve önem derecesini (düşük/orta/yüksek) üretmek amacıyla Google Gemini API'sine gönderilir. Özet, arayüzde seçtiğiniz dilde (Türkçe, İngilizce veya Almanca) üretilir. Üretilen özet, yalnızca sizin tarayıcınızda (<code>chrome.storage.local</code>) önbelleğe alınır ki aynı e-posta tekrar tekrar özetlenmesin. Bu önbelleği Ayarlar sayfasından istediğiniz zaman temizleyebilirsiniz.</p>
+  <p>Uzantı e-postalarınızı <strong>silmez, göndermez, yanıtlamaz, yönlendirmez veya değiştirmez</strong>. Sadece okuma (read-only) izni kullanılır.</p>
+  <p>E-posta kartına tıkladığınızda, ilgili e-posta veya gelen kutunuz Gmail/Outlook'un kendi web arayüzünde yeni bir sekmede açılır; bu işlem tamamen tarayıcınız üzerinden gerçekleşir.</p>
+
+  <h3>2.2 Yapay zeka sohbeti (Gemini)</h3>
+  <p>&ldquo;Hızlı Soru&rdquo; özelliğiyle yazdığınız mesajlar, yanıt üretmesi için doğrudan tarayıcınızdan Google Gemini API'sine gönderilir. Bir konuşma sırasındaki önceki mesajlarınız, bağlamı korumak amacıyla sonraki isteklerle birlikte tekrar gönderilir. Bu konuşma geçmişi yalnızca o an açık olan sekmede, tarayıcı belleğinde tutulur; sekmeyi kapattığınızda veya yeni bir sekme açtığınızda silinir, hiçbir yerde kalıcı olarak saklanmaz.</p>
+
+  <h3>2.3 Web'de arama (Tavily)</h3>
+  <p>&ldquo;Web'de ara&rdquo; seçeneğini işaretlerseniz, sorduğunuz soru güncel sonuçlar getirmesi için Tavily arama API'sine gönderilir. Bu, yalnızca siz bu seçeneği açıkça işaretlediğinizde devreye girer.</p>
+
+  <h3>2.4 Yerel olarak sakladığımız veriler</h3>
+  <p>Aşağıdaki bilgiler yalnızca kendi bilgisayarınızdaki <code>chrome.storage.local</code> içinde saklanır ve bizimle veya başka bir tarafla paylaşılmaz:</p>
+  <ul>
+    <li>Gemini ve Tavily API anahtarlarınız</li>
+    <li>Gmail/Outlook OAuth erişim ve yenileme belirteçleri (token)</li>
+    <li>Seçtiğiniz dil, tema, karşılama başlığı/alt yazısı gibi görünüm tercihleri</li>
+    <li>Daha önce özetlenmiş e-postaların önbelleği</li>
+  </ul>
+  <p>Bu veriler yalnızca uzantıyı kaldırdığınızda veya ilgili bağlantıyı/önbelleği kendiniz temizlediğinizde silinir.</p>
+
+  <h2>3. Verileri kiminle paylaşıyoruz</h2>
+  <p>Verilerinizi hiçbir üçüncü tarafla pazarlama, reklam veya satış amacıyla paylaşmıyoruz. Uzantının çalışması için doğrudan aşağıdaki servislerle iletişim kurulur (her biri kendi gizlilik politikasına tabidir):</p>
+  <ul>
+    <li><strong>Google</strong> — Gmail API (e-posta okuma), Gemini API (özetleme ve sohbet), Google OAuth (Gmail bağlantısı için kimlik doğrulama)</li>
+    <li><strong>Microsoft</strong> — Microsoft Graph API (Outlook e-posta okuma), Microsoft kimlik platformu (Outlook bağlantısı için kimlik doğrulama)</li>
+    <li><strong>Tavily</strong> — yalnızca &ldquo;Web'de ara&rdquo; özelliği kullanıldığında arama API'si</li>
+  </ul>
+  <p>Bu servislere yapılan istekler doğrudan sizin tarayıcınızdan gider; bizim sunucumuz araya girmez çünkü böyle bir sunucumuz yoktur.</p>
+
+  <h2>4. Google Kullanıcı Verileri Politikasına Uyum</h2>
+  <p>Trace Tab'ın Google API'lerinden aldığı bilgilerin kullanımı ve başka bir uygulamaya aktarımı, <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noreferrer">Google API Hizmetleri Kullanıcı Verileri Politikası</a> dahil olmak üzere Sınırlı Kullanım (Limited Use) şartlarına uyar. Somut olarak:</p>
+  <ul>
+    <li>Gmail verileri yalnızca Bölüm 2.1'de açıklanan özetleme özelliği için kullanılır.</li>
+    <li>Bu veriler insani incelemeye tabi tutulmaz, reklam amacıyla kullanılmaz, kredi puanlama veya borç verme amaçlı kullanılmaz.</li>
+    <li>Veriler, açıklanan işlevsellik için gerekli olandan daha uzun süre saklanmaz (bkz. Bölüm 2.4).</li>
+  </ul>
+
+  <h2>5. Veri güvenliği</h2>
+  <p>API anahtarlarınız ve oturum belirteçleriniz <code>chrome.storage.local</code> üzerinde, tarayıcı profilinize özel olarak saklanır. Outlook bağlantısı sektör standardı PKCE (Proof Key for Code Exchange) OAuth 2.0 akışı kullanır. Uzantı, hiçbir kimlik bilginizi (şifre, API anahtarı, token) bizim veya üçüncü bir tarafın sunucusuna göndermez.</p>
+
+  <h2>6. Bağlantıyı kesme ve verilerinizi silme</h2>
+  <ul>
+    <li>Gmail/Outlook bağlantısını Ayarlar sayfasından tek tıkla kesebilirsiniz; bu işlem yerel olarak saklanan oturum belirtecini siler.</li>
+    <li>E-posta özet önbelleğini Ayarlar sayfasındaki &ldquo;Önbelleği Temizle&rdquo; butonuyla istediğiniz zaman silebilirsiniz.</li>
+    <li>Uzantıyı Chrome'dan kaldırdığınızda, <code>chrome.storage.local</code> içindeki tüm veriler (API anahtarları, önbellek, tercihler, token'lar) Chrome tarafından otomatik olarak silinir.</li>
+  </ul>
+
+  <h2>7. Çocukların gizliliği</h2>
+  <p>Uzantı, 13 yaş altı çocukları hedeflememektedir ve bilerek onlardan veri toplamaz.</p>
+
+  <h2>8. Bu politikadaki değişiklikler</h2>
+  <p>Bu politikayı zaman zaman güncelleyebiliriz. Önemli değişikliklerde bu sayfanın üst kısmındaki &ldquo;Son güncelleme&rdquo; tarihi değiştirilecektir.</p>
+
+  <h2>9. İletişim</h2>
+  <p>Bu politikayla veya Uzantı'nın veri işleme uygulamalarıyla ilgili sorularınız için: <a href="mailto:yusaguverdik@gmail.com">yusaguverdik@gmail.com</a></p>
+  <p>Geliştirici: Yuşa Göverdik (yushadev0)</p>
+
+  <footer>Trace Tab · <a href="https://github.com/yushadev0/trace-tab">github.com/yushadev0/trace-tab</a></footer>
+</div>
+</body>
+</html>
