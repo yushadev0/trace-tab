@@ -20,10 +20,11 @@ const SCOPE = "https://www.googleapis.com/auth/gmail.readonly";
  * redirect URI'mize dönülebilmesi kısıtına dayanır. (Google PKCE-only kabul
  * ederse secret'ı boş bırakabilirsiniz; boşsa isteğe eklenmez.)
  */
-// DİKKAT: Bunlar "Web application" tipi bir client'a ait olmalı — daha önce
-// getAuthToken için kullanılan "Chrome Extension" tipi client BURADA çalışmaz.
-const GOOGLE_CLIENT_ID = "PASTE_WEB_APPLICATION_CLIENT_ID.apps.googleusercontent.com";
-const GOOGLE_CLIENT_SECRET = "PASTE_WEB_APPLICATION_CLIENT_SECRET";
+// "Web application" tipi OAuth client (getAuthToken için kullanılan "Chrome
+// Extension" tipi client bu akışta çalışmaz). Değerler .env'den gelir
+// (bkz. .env.example); build sırasında pakete gömülür, repoya girmez.
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = import.meta.env.VITE_GOOGLE_CLIENT_SECRET;
 
 /** Token'ı süresi dolmadan bir dakika önce yenilenmiş say. */
 const EXPIRY_BUFFER_MS = 60_000;
