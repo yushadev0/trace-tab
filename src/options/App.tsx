@@ -11,10 +11,12 @@ import {
   getGeminiApiKey,
   getGreetingSubtitle,
   getGreetingTitle,
+  getShowInbox,
   getTavilyApiKey,
   setGeminiApiKey,
   setGreetingSubtitle,
   setGreetingTitle,
+  setShowInbox,
   setTavilyApiKey,
 } from "../shared/storage";
 
@@ -27,6 +29,7 @@ export default function App() {
   const [tavilyKey, setTavilyKey] = useState("");
   const [greetingTitle, setGreetingTitleState] = useState("");
   const [greetingSubtitle, setGreetingSubtitleState] = useState("");
+  const [showInbox, setShowInboxState] = useState(true);
   const [status, setStatus] = useState<"idle" | "saved">("idle");
   const [cacheCleared, setCacheCleared] = useState(false);
 
@@ -47,7 +50,13 @@ export default function App() {
     getGreetingSubtitle().then((v) => {
       if (v) setGreetingSubtitleState(v);
     });
+    getShowInbox().then(setShowInboxState);
   }, []);
+
+  async function handleToggleInbox(next: boolean) {
+    setShowInboxState(next);
+    await setShowInbox(next);
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
@@ -100,6 +109,7 @@ export default function App() {
                 onChange={(e) => setGreetingTitleState(e.target.value)}
                 placeholder={defaultGreetingTitle}
               />
+              <p className="field-help">{t("options.greeting.nameHint")}</p>
             </div>
             <div className="field">
               <label htmlFor="greeting-subtitle">{t("options.greeting.subtitleLabel")}</label>
@@ -139,6 +149,18 @@ export default function App() {
           <section className="options-section">
             <h2>{t("options.email.heading")}</h2>
             <p className="hint">{t("options.email.hint")}</p>
+
+            <div className="field">
+              <label className="checkbox-field">
+                <input
+                  type="checkbox"
+                  checked={showInbox}
+                  onChange={(e) => handleToggleInbox(e.target.checked)}
+                />
+                {t("options.email.showInboxLabel")}
+              </label>
+              <p className="field-help">{t("options.email.showInboxHint")}</p>
+            </div>
 
             <div className="field">
               <div className="field-title">Gmail</div>

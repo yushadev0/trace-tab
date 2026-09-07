@@ -6,6 +6,7 @@ const THEME_KEY = "theme";
 const LANGUAGE_KEY = "language";
 const GREETING_TITLE_KEY = "greetingTitle";
 const GREETING_SUBTITLE_KEY = "greetingSubtitle";
+const SHOW_INBOX_KEY = "showInbox";
 const EMAIL_CACHE_KEY = "emailCache";
 const OUTLOOK_ACCOUNT_KEY = "outlookAccount";
 const GOOGLE_ACCOUNT_KEY = "googleAccount";
@@ -56,6 +57,17 @@ export async function getLanguage(): Promise<AppLanguage | undefined> {
 
 export async function setLanguage(language: AppLanguage): Promise<void> {
   await chrome.storage.local.set({ [LANGUAGE_KEY]: language });
+}
+
+/** Yeni sekmedeki gelen kutusu bölümü gösterilsin mi (varsayılan: evet). */
+export async function getShowInbox(): Promise<boolean> {
+  const result = await chrome.storage.local.get(SHOW_INBOX_KEY);
+  const value = result[SHOW_INBOX_KEY];
+  return value === undefined ? true : Boolean(value);
+}
+
+export async function setShowInbox(value: boolean): Promise<void> {
+  await chrome.storage.local.set({ [SHOW_INBOX_KEY]: value });
 }
 
 export async function getGreetingTitle(): Promise<string | undefined> {

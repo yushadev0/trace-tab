@@ -7,8 +7,9 @@ export const tr = {
     disconnect: "Bağlantıyı kes",
   },
   newtab: {
-    greetingTitle: "Merhaba, Yuşa",
-    greetingSubtitle: "Daddy's Home? Bugün ne yapıyoruz.",
+    greetingTitle: "Merhaba, [Kullanıcı]",
+    greetingNameToken: "[Kullanıcı]",
+    greetingSubtitle: "Bugün ne yapmak istersin?",
     chatPlaceholder: "Hızlı bir soru sor... (Enter ile gönder)",
     webSearch: "🌐 Web'de ara",
     sources: "Kaynaklar",
@@ -45,6 +46,7 @@ export const tr = {
     greeting: {
       titleLabel: "Karşılama başlığı",
       subtitleLabel: "Karşılama alt yazısı",
+      nameHint: "Başlıktaki [Kullanıcı] ifadesini kendi adınızla değiştirebilirsiniz.",
     },
     ai: {
       heading: "Yapay Zeka",
@@ -57,6 +59,9 @@ export const tr = {
     email: {
       heading: "E-posta bağlantıları",
       hint: "Gelen kutusu özetleri için Gmail ve/veya Outlook'a bağlan.",
+      showInboxLabel: "Gelen kutusunu göster",
+      showInboxHint:
+        "Yeni sekmede e-posta özetleri bölümünü gösterir. Kapalıyken hiçbir e-posta isteği yapılmaz.",
       connectGmail: "Gmail'e Bağlan",
       connectOutlook: "Outlook'a Bağlan",
       connected: "Bağlı:",

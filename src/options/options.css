@@ -99,6 +99,22 @@ body {
   color: var(--accent);
 }
 
+.field label.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.field label.checkbox-field input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  flex: none;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
 .field-with-toggle {
   position: relative;
 }

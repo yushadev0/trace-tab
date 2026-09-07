@@ -16,7 +16,7 @@ export interface EmailDigestState {
   refresh: () => void;
 }
 
-export function useEmailDigest(): EmailDigestState {
+export function useEmailDigest(enabled: boolean): EmailDigestState {
   const { t } = useTranslation();
   const [cards, setCards] = useState<EmailCardDto[]>([]);
   const [statusMessage, setStatusMessage] = useState("");
@@ -25,7 +25,7 @@ export function useEmailDigest(): EmailDigestState {
   const [progress, setProgress] = useState<EmailProgress | null>(null);
 
   function refresh() {
-    if (status === "running") return;
+    if (!enabled || status === "running") return;
 
     setError("");
     setStatusMessage(t("inbox.progress.starting"));
@@ -41,10 +41,11 @@ export function useEmailDigest(): EmailDigestState {
         setProgress({ processed: message.processed, total: message.total });
       } else if (message.type === "cards") {
         setCards(message.cards);
-      } else if (message.type === "done") {
+      } else if (message.type === "done" || message.type === "noAccount") {
         setStatus("idle");
         setStatusMessage("");
         setProgress(null);
+        if (message.type === "noAccount") setCards([]);
         port.disconnect();
       } else if (message.type === "error") {
         setError(message.message);
@@ -59,9 +60,9 @@ export function useEmailDigest(): EmailDigestState {
   }
 
   useEffect(() => {
-    refresh();
+    if (enabled) refresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [enabled]);
 
   return { cards, statusMessage, status, error, progress, refresh };
 }

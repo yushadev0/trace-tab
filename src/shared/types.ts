@@ -68,6 +68,8 @@ export type EmailDigestResponse =
   | { type: "progress"; processed: number; total: number }
   | { type: "cards"; cards: EmailCardDto[] }
   | { type: "done" }
+  /** Hiçbir e-posta hesabı bağlı değil — hata değil, sessizce boş durum. */
+  | { type: "noAccount" }
   | { type: "error"; message: string };
 
 export interface EmailConnectionRequest {

@@ -78,10 +78,18 @@ export default function Chat({ onModeChange }: { onModeChange: (chatMode: boolea
     }
   }
 
+  // Kullanıcı başlığı kişiselleştirmediyse "[Kullanıcı]" jetonunu at ("Merhaba,
+  // [Kullanıcı]" -> "Merhaba"); geriye bir şey kalmıyorsa başlığı hiç gösterme.
+  const rawTitle = greetingTitle ?? t("newtab.greetingTitle");
+  const nameToken = t("newtab.greetingNameToken");
+  const displayTitle = rawTitle.includes(nameToken)
+    ? rawTitle.split(nameToken).join("").replace(/^[\s,]+|[\s,]+$/gu, "").trim()
+    : rawTitle;
+
   return (
     <>
       <div className="greeting">
-        <h1 className="greeting-title">{greetingTitle ?? t("newtab.greetingTitle")}</h1>
+        {displayTitle && <h1 className="greeting-title">{displayTitle}</h1>}
         <p className="greeting-subtitle">{greetingSubtitle ?? t("newtab.greetingSubtitle")}</p>
       </div>
 

@@ -173,7 +173,7 @@ function handleEmailDigest(port: chrome.runtime.Port) {
 
       const [gmailEmail, outlookEmail] = await Promise.all([getConnectedEmail(), getConnectedOutlookEmail()]);
       if (!gmailEmail && !outlookEmail) {
-        send({ type: "error", message: t("errors.noEmailAccount") });
+        send({ type: "noAccount" });
         return;
       }
 

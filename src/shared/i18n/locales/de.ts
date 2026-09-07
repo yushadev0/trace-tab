@@ -8,8 +8,9 @@ export const de: TranslationResource = {
     disconnect: "Trennen",
   },
   newtab: {
-    greetingTitle: "Hallo, Yuşa",
-    greetingSubtitle: "Daddy's Home? Was machen wir heute.",
+    greetingTitle: "Hallo, [Benutzer]",
+    greetingNameToken: "[Benutzer]",
+    greetingSubtitle: "Was möchtest du heute tun?",
     chatPlaceholder: "Stelle eine kurze Frage... (Enter zum Senden)",
     webSearch: "🌐 Im Web suchen",
     sources: "Quellen",
@@ -46,6 +47,7 @@ export const de: TranslationResource = {
     greeting: {
       titleLabel: "Begrüßungstitel",
       subtitleLabel: "Begrüßungsuntertitel",
+      nameHint: "Ersetze [Benutzer] im Titel durch deinen eigenen Namen.",
     },
     ai: {
       heading: "KI",
@@ -58,6 +60,9 @@ export const de: TranslationResource = {
     email: {
       heading: "E-Mail-Verbindungen",
       hint: "Verbinde Gmail und/oder Outlook für Posteingangs-Zusammenfassungen.",
+      showInboxLabel: "Posteingang anzeigen",
+      showInboxHint:
+        "Zeigt den Bereich mit den E-Mail-Zusammenfassungen im neuen Tab. Wenn aus, werden keine E-Mail-Anfragen gestellt.",
       connectGmail: "Gmail verbinden",
       connectOutlook: "Outlook verbinden",
       connected: "Verbunden:",
